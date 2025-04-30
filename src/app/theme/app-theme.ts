@@ -1,7 +1,7 @@
 import { definePreset } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
 
-const Noir = definePreset(Aura, {
+const basic = definePreset(Aura, {
     semantic: {
         primary: {
             50: '{surface.50}',
@@ -50,8 +50,5 @@ const Noir = definePreset(Aura, {
 });
 
 export default {
-    preset: Noir,
-    options: {
-        darkModeSelector: '.p-dark'
-    }
+    preset: basic,
 };

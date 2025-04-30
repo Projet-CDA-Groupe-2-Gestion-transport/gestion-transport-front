@@ -1,7 +1,11 @@
+import {HttpClient} from '@angular/common/http';
+import {tap} from 'rxjs';
+import {Injectable} from '@angular/core';
+
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthenticationService {
   private readonly TOKEN_KEY = 'auth_token'; // Clé pour le localStorage
 
   constructor(private http: HttpClient) {}
@@ -10,7 +14,7 @@ export class AuthService {
     return this.http.post<any>('/api/auth/login', { username, password }).pipe(
       tap((response) => {
         if (response.token) {
-          this.saveToken(response.token); // Sauvegarde du token
+          this.saveToken(response.token);
         }
       })
     );
@@ -26,5 +30,9 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY); // Supprime le token
+  }
+
+  isLogged(): boolean {
+    return !!this.getToken();
   }
 }

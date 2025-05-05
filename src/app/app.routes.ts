@@ -5,10 +5,11 @@ import {serviceVehicleRoutes} from './features/service-vehicle/service-vehicle.r
 
 export const routes: Routes = [
   {path: "", loadComponent: () => import('./app.component').then(m => m.AppComponent), canActivate: [AuthGuard]},
-  {path: "login", loadComponent: () => import('./features/sign-in/pages/sign-in.component/sign-in.component').then(m => m.SignInComponent)},
-  {path: "**", loadComponent: () => import('./core/pages/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent)},
-
+  {path: "login", loadComponent: () => import('./features/sign-in/pages/login.component/login.component').then(m => m.LoginComponent)},
+  {path: "home", loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent), canActivate: [AuthGuard]},
 
   ...carpoolingRoutes,
-  ...serviceVehicleRoutes
+  ...serviceVehicleRoutes,
+
+  {path: "**", loadComponent: () => import('./core/pages/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent)},
 ];

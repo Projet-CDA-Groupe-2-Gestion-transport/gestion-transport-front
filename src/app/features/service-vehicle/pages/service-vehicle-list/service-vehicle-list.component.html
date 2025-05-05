@@ -1,0 +1,32 @@
+<div class="d-flex flex-row justify-content-between align-items-center">
+  <h2 class="text-decoration-underline">Véhicules de service</h2>
+  <p-button label="Ajouter un véhicule"></p-button>
+</div>
+<p-table [loading]="loading()" [value]="serviceVehicleList() || []">
+  <ng-template #header>
+    <tr>
+      <th>Immatriculation</th>
+      <th>Marque</th>
+      <th>Modèle</th>
+      <th>Catégorie</th>
+      <th>Motorisation</th>
+      <th>CO2/km</th>
+      <th>Nombres de place</th>
+      <th>Photo</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-serviceVehicle>
+    <tr>
+      <td>{{ serviceVehicle.licensePlateNumber | uppercase }}</td>
+      <td>{{ serviceVehicle.brand | capitalize }}</td>
+      <td>{{ serviceVehicle.model | uppercase }}</td>
+      <td>{{ serviceVehicle.category | capitalize }}</td>
+      <td>{{ serviceVehicle.motorization | capitalize }}</td>
+      <td>{{ serviceVehicle.co2Km }}</td>
+      <td>{{ serviceVehicle.nbSeats }}</td>
+      <td><p-button (click)="openPicture(serviceVehicle.photoUrl)">Voir</p-button></td>
+    </tr>
+  </ng-template>
+
+
+</p-table>

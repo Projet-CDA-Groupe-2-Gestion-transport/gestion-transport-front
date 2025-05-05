@@ -5,14 +5,13 @@ import {catchError, of, tap} from 'rxjs';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import {ToastService} from '../../../../core/adapters/toast.service';
 
 @Component({
   selector: 'app-sign-in',
   imports: [
     ReactiveFormsModule,
-    ToastModule
   ],
-  providers: [MessageService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -24,7 +23,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private router: Router,
-    private messageService: MessageService
+    private toastService: ToastService
   ) {
   }
 
@@ -46,7 +45,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.form.getRawValue().username, this.form.getRawValue().password).pipe(
       tap(_ => this.router.navigate(['home'])),
       catchError(err => {
-        this.messageService.add({severity: 'error', summary: 'Error', detail: 'Message Content'})
+        this.toastService.error('Identifiants incorrect', 'Votre email ou votre mot de passe est incorrect.');
         return of(err);
       })
     ).subscribe();

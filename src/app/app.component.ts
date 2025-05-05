@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import {Button} from 'primeng/button';
-import {Toast, ToastModule} from 'primeng/toast';
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
 import {AuthenticationService} from './core/services/AuthenticationService';
 

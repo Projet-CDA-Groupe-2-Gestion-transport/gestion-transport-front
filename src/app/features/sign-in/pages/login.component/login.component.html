@@ -1,11 +1,31 @@
-<form [formGroup]="form" (submit)="submit()">
-  <label for="username">Email</label>
-  <input type="email" formControlName="username" id="username">
+<div class="vh-100 d-flex justify-content-center align-items-center">
+  <div>
+    <form [formGroup]="form" (submit)="submit()"
+          class="d-flex justify-content-center align-items-center flex-column gap-4">
+      <div>
+        <p-input-group>
+          <p-inputgroup-addon class="bg-primary">
+            <i class="pi pi-user text-white"></i>
+          </p-inputgroup-addon>
+          <input pInputText type="email" formControlName="username" id="username" placeholder="Email"/>
+        </p-input-group>
+        <app-form-error [control]="form.get('username')"></app-form-error>
+      </div>
 
-  <label for="password">Mot de passe</label>
-  <input type="email" formControlName="password" id="password">
+      <div>
+        <p-input-group>
+          <p-inputgroup-addon class="bg-primary">
+            <i class="pi pi-lock text-white"></i>
+          </p-inputgroup-addon>
+          <input pInputText type="password" formControlName="password" id="password"
+                 placeholder="Mot de passe"/>
+        </p-input-group>
+        <app-form-error [control]="form.get('password')"></app-form-error>
 
-  <input type="submit" value="Se connecter">
+      </div>
 
-</form>
+      <p-button type="submit" label="Se connecter"></p-button>
 
+    </form>
+  </div>
+</div>

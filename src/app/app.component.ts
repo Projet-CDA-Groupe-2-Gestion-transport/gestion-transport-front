@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import {Button} from 'primeng/button';
 import {Toast, ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
+import {AuthenticationService} from './core/services/AuthenticationService';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,19 @@ import {MessageService} from 'primeng/api';
     RouterOutlet,
     ToastModule
   ],
-  providers: [
-    MessageService
-  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+
+
+  constructor(
+    private authService: AuthenticationService
+  ) {
+  }
+
+  logout() {
+    this.authService.logout();
+  }
   title = 'gestion-transport';
 }

@@ -1,0 +1,36 @@
+.mainNav{
+  .p-menubar{
+    border: none !important;
+    background: none !important;
+  }
+  .p-menubar-item-link{
+
+  }
+}
+
+.subNav{
+
+  .p-menubar-item-label{
+    color: white;
+    font-weight: bolder;
+  }
+
+  .p-menubar{
+    border: none !important;
+    background: none !important;
+  }
+
+  .p-menubar-item-content{
+    background: none !important;
+    transition: none;
+
+
+  }
+
+  .p-menubar-submenu{
+    .p-menubar-item-label{
+    color: black !important;
+      font-weight: normal;
+    }
+  }
+}

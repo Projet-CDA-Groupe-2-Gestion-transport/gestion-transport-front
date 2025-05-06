@@ -40,11 +40,11 @@ export class AuthenticationService {
 
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
-    this.router.navigate(['login']);
+    this.router.navigate(['/login']);
   }
 
   isLogged(): boolean {
-    return !!this.getToken();
+    return !!this.getToken() && !this.jwtHelper.isTokenExpired(this.getToken())
   }
 
   hasRole(role: string): boolean {

@@ -4,29 +4,29 @@ import Aura from '@primeng/themes/aura';
 const basic = definePreset(Aura, {
     semantic: {
         primary: {
-            50: '{surface.50}',
-            100: '{surface.100}',
-            200: '{surface.200}',
-            300: '{surface.300}',
-            400: '{surface.400}',
-            500: '{surface.500}',
-            600: '{surface.600}',
-            700: '{surface.700}',
-            800: '{surface.800}',
-            900: '{surface.900}',
-            950: '{surface.950}'
+            50: '{blue.50}',
+            100: '{blue.100}',
+            200: '{blue.200}',
+            300: '{blue.300}',
+            400: '{blue.400}',
+            500: '{blue.500}',
+            600: '{blue.600}',
+            700: '{blue.700}',
+            800: '{blue.800}',
+            900: '{blue.900}',
+            950: '{blue.950}'
         },
         colorScheme: {
             light: {
                 primary: {
-                    color: '{primary.950}',
+                    color: '{primary.600}',
                     contrastColor: '#ffffff',
-                    hoverColor: '{primary.800}',
-                    activeColor: '{primary.700}'
+                    hoverColor: '{primary.500}',
+                    activeColor: '{primary.550}'
                 },
                 highlight: {
-                    background: '{primary.950}',
-                    focusBackground: '{primary.700}',
+                    background: '{primary.600}',
+                    focusBackground: '{primary.600}',
                     color: '#ffffff',
                     focusColor: '#ffffff'
                 }

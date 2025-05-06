@@ -1,0 +1,15 @@
+<nav class="d-flex shadow-sm">
+  <div class="col-2 d-flex align-items-center p-3">
+    <i class="pi pi-car fs-2 text-primary"
+       role="button"
+       [routerLink]="['home']">
+    </i>
+  </div>
+  <div class="col-7 d-flex align-items-center">
+    <p-menubar [model]="navItems" class="mainNav" />
+  </div>
+
+  <div class="col-3 bg-primary d-flex align-items-center ps-4">
+    <p-menubar [model]="subNavItems" class="subNav"/>
+  </div>
+</nav>

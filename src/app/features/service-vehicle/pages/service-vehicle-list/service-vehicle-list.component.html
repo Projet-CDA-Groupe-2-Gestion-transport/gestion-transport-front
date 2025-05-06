@@ -1,6 +1,6 @@
 <div class="d-flex flex-row justify-content-between align-items-center">
   <h2 class="text-decoration-underline">Véhicules de service</h2>
-  <p-button label="Ajouter un véhicule"></p-button>
+  <p-button (click)="addVehicle()" label="Ajouter un véhicule"></p-button>
 </div>
 <p-table [loading]="loading()" [value]="serviceVehicleList() || []">
   <ng-template #header>
@@ -13,6 +13,8 @@
       <th>CO2/km</th>
       <th>Nombres de place</th>
       <th>Photo</th>
+      <th></th>
+      <th></th>
     </tr>
   </ng-template>
   <ng-template #body let-serviceVehicle>
@@ -25,6 +27,8 @@
       <td>{{ serviceVehicle.co2Km }}</td>
       <td>{{ serviceVehicle.nbSeats }}</td>
       <td><p-button (click)="openPicture(serviceVehicle.photoUrl)">Voir</p-button></td>
+      <td><p-button label="Modifier" (click)="editServiceVehicle(serviceVehicle.licensePlateNumber)"></p-button></td>
+      <td><p-button label="Supprimer" (click)="deleteServiceVehicle(serviceVehicle.licensePlateNumber)"></p-button></td>
     </tr>
   </ng-template>
 

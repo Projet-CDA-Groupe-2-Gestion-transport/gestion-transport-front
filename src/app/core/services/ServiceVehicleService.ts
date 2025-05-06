@@ -18,4 +18,15 @@ export class ServiceVehicleService {
     return this.http.get<any>(`${this.baseUrl}/get-all`)
   }
 
+  getServiceVehicleById(immatriculation: string): Observable<ServiceVehicle> {
+    return this.http.get<any>(`${this.baseUrl}/get/${immatriculation}`)
+  }
+
+  saveServiceVehicle(serviceVehicle: ServiceVehicle): Observable<ServiceVehicle> {
+    return this.http.post<any>(`${this.baseUrl}/save`, serviceVehicle)
+  }
+
+  deleteServiceVehicle(number: string) {
+    return this.http.delete<any>(`${this.baseUrl}/delete/${number}`)
+  }
 }

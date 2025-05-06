@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import {AuthGuard} from './core/guards/auth.guard';
 import {carpoolingRoutes} from './features/carpooling/carpooling.routes';
 import {serviceVehicleRoutes} from './features/service-vehicle/service-vehicle.routes';
-import {AdminGuard} from './core/guards/admin.guard';
 
 export const routes: Routes = [
   {path: "", loadComponent: () => import('./app.component').then(m => m.AppComponent), canActivate: [AuthGuard]},

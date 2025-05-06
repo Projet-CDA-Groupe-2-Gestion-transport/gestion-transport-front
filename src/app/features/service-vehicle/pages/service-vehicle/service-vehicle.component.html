@@ -1,0 +1,201 @@
+@if (loading()) {
+  <p-progressSpinner></p-progressSpinner>
+}
+@if (serviceVehicle(); as serviceVehicle) {
+  <h2 class="text-decoration-underline">{{ title() }}</h2>
+  <ng-form #serviceVehicleForm="ngForm" class="service-vehicle-form">
+    <div class="d-flex flex-column gap-2">
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="licensePlateNumberInput">Immatriculation</label>
+        </div>
+        <p-inputmask
+          [ngModelOptions]="{standalone: true}"
+          #licensePlateNumberInput="ngModel"
+          class="uppercase-input"
+          id="licensePlateNumberInput"
+          [(ngModel)]="serviceVehicle.licensePlateNumber"
+          name="licensePlateNumber"
+          mask="aa-999-aa"
+          placeholder="AB-123-CD"
+          required
+          [unmask]="true"
+          [disabled]="licensePlateNumber() != null"
+        >
+        </p-inputmask>
+      </div>
+      @if ((licensePlateNumberInput.touched || serviceVehicleForm.submitted) && licensePlateNumberInput.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez entrer une immatriculation conforme</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="brandInput">Marque</label>
+        </div>
+        <p-select
+          #brandInput="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [options]="brandOptions"
+          [(ngModel)]="serviceVehicle.brand"
+          id="brandInput"
+          class="uppercase-input"
+          optionValue="value"
+          optionLabel="label"
+          placeholder="Marque"
+          required
+        >
+        </p-select>
+      </div>
+      @if (serviceVehicleForm.submitted && brandInput.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez sélectionner une marque</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="model">Modèle</label>
+        </div>
+        <input
+          pInputText
+          #model="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="serviceVehicle.model"
+          id="model"
+          required
+        >
+      </div>
+      @if ((serviceVehicleForm.submitted || model.touched) && model.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez indiquer le nom du modèle</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="categoryInput">Catégorie</label>
+        </div>
+        <p-select
+          #categoryInput="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [options]="categoryOptions"
+          [(ngModel)]="serviceVehicle.category"
+          id="categoryInput"
+          class="uppercase-input"
+          optionValue="value"
+          optionLabel="label"
+          placeholder="Catégorie"
+          required
+        >
+        </p-select>
+      </div>
+      @if (serviceVehicleForm.submitted && categoryInput.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez sélectionner une catégorie</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="photoUrl">Photo</label>
+        </div>
+        <input
+          pInputText
+          #photoUrl="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="serviceVehicle.photoUrl"
+          id="photoUrl"
+        >
+      </div>
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="nbSeats">Nombre de place</label>
+        </div>
+        <p-inputNumber
+          #nbSeats="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="serviceVehicle.nbSeats"
+          id="nbSeats"
+          required
+          min="1"
+        >
+        </p-inputNumber>
+      </div>
+      @if ((nbSeats.touched || serviceVehicleForm.submitted) && nbSeats.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez sélectionner un nombre de places</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="motorizationInput">Motorisation</label>
+        </div>
+        <p-select
+          #motorizationInput="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [options]="motorizationOptions"
+          [(ngModel)]="serviceVehicle.motorization"
+          id="motorizationInput"
+          class="uppercase-input"
+          optionValue="value"
+          optionLabel="label"
+          placeholder="Catégorie"
+          required
+        >
+        </p-select>
+      </div>
+      @if (serviceVehicleForm.submitted && motorizationInput.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez sélectionner une motorisation</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="co2">Emission co2</label>
+        </div>
+        <p-inputNumber
+          #co2="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="serviceVehicle.co2Km"
+          id="co2"
+        >
+        </p-inputNumber>
+      </div>
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="status">Statut</label>
+        </div>
+        <p-select
+          #status="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [options]="statusOptions"
+          [(ngModel)]="serviceVehicle.status"
+          id="status"
+          class="uppercase-input"
+          optionValue="value"
+          optionLabel="label"
+          placeholder="Catégorie"
+          [disabled]="licensePlateNumber() == null"
+          required
+        >
+        </p-select>
+      </div>
+      @if (serviceVehicleForm.submitted && motorizationInput.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez sélectionner une motorisation</span>
+        </div>
+      }
+      <div class="d-flex flex-row gap-2">
+        <p-button label="Enregistrer" (click)="saveServiceVehicle()"></p-button>
+        <p-button label="Supprimer" (click)="deleteServiceVehicle()"></p-button>
+      </div>
+    </div>
+  </ng-form>
+
+}

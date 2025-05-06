@@ -10,3 +10,5 @@ export enum VehicleCategoryEnum {
   TOUT_TERRAINS = 'TOUT_TERRAINS',
   PICK_UP = 'PICK_UP'
 }
+
+

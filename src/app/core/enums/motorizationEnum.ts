@@ -5,3 +5,12 @@ export enum MotorizationEnum {
   DIESEL = 'DIESEL',
   HYDROGEN = 'HYDROGEN'
 }
+
+export const MotorizationEnumTranslate: Record<MotorizationEnum, string> = {
+  [MotorizationEnum.ELECTRIC]: 'Électrique',
+  [MotorizationEnum.HYBRID]: 'Hybride',
+  [MotorizationEnum.PETROL]: 'Essence',
+  [MotorizationEnum.DIESEL]: 'Diesel',
+  [MotorizationEnum.HYDROGEN]: 'Hydrogène',
+}
+

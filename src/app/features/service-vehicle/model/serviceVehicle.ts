@@ -1,18 +1,32 @@
 import {BrandEnum} from '../../../core/enums/brandEnum';
-import {VehicleStatusEnum} from '../../../core/enums/vehicleStatusEnum';
 import {VehicleCategoryEnum} from '../../../core/enums/vehicleCategoryEnum';
 import {MotorizationEnum} from '../../../core/enums/motorizationEnum';
+import {ServiceVehiculeStatusEnum} from '../../../core/enums/serviceVehiculeStatusEnum';
 
 export interface ServiceVehicle {
-  id: number;
   licensePlateNumber: string;
   model: string;
-  nbSeats: number;
-  brand: BrandEnum;
-  co2Km: number;
+  nbSeats: number | null;
+  brand: BrandEnum | null;
+  co2Km: number | null;
   description: string;
   photoUrl: string;
-  status: VehicleStatusEnum;
-  category: VehicleCategoryEnum;
-  motorization: MotorizationEnum;
+  status: ServiceVehiculeStatusEnum | null;
+  category: VehicleCategoryEnum | null;
+  motorization: MotorizationEnum | null;
+}
+
+export function initServiceVehicle(): ServiceVehicle {
+  return {
+    licensePlateNumber: '',
+    model: '',
+    nbSeats: null,
+    brand: null,
+    co2Km: null,
+    description: '',
+    photoUrl: '',
+    status: ServiceVehiculeStatusEnum.IN_SERVICE,
+    category: null,
+    motorization: null,
+  };
 }

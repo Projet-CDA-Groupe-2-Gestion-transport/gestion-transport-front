@@ -23,7 +23,8 @@
       </td>
       @if (!isArchived()) {
         <td>
-          <p-button label="Supprimer"></p-button>
+          <p-confirmDialog />
+          <p-button severity="danger" (click)="confirm($event, carpooling.id)" label="Annuler"></p-button>
         </td>
       }
     </tr>

@@ -17,4 +17,8 @@ export class CarpoolingService {
   getUserBooking(isArchived: boolean): Observable<Carpooling[]> {
     return this.http.get<Carpooling[]>(`${this.baseUrl}/user-booking`, {params: {isArchived}});
   }
+
+  cancelUserBooking(idCarpooling: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${idCarpooling}/cancel-booking`);
+  }
 }

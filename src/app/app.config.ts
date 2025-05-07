@@ -9,6 +9,7 @@ import {authInterceptor} from './core/interceptors/auth.interceptor';
 import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {toastInterceptor} from './core/interceptors/toast.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     providePrimeNG({theme: Basic, ripple: false, inputStyle: 'outlined'}),
     provideHttpClient(
-      withInterceptors([authInterceptor])
+      withInterceptors([authInterceptor, toastInterceptor])
     ),
     provideAnimationsAsync(),
     importProvidersFrom(ToastModule),

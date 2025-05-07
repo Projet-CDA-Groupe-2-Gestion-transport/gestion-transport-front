@@ -1,0 +1,95 @@
+<p-dialog [(visible)]="displayDialog" [closable]="true" (onHide)=" this.displayDialog.set(false)" [header]="'Ajouter un véhicule'">
+  <ng-form #serviceVehicleForm="ngForm" class="service-vehicle-form">
+    <div class="d-flex flex-column gap-2">
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="licensePlateNumberInput">Immatriculation</label>
+        </div>
+        <p-inputmask
+          [ngModelOptions]="{standalone: true}"
+          #licensePlateNumberInput="ngModel"
+          class="uppercase-input"
+          id="licensePlateNumberInput"
+          [(ngModel)]="vehicle().licensePlateNumber"
+          name="licensePlateNumber"
+          mask="aa-999-aa"
+          placeholder="AB-123-CD"
+          required
+          [unmask]="true"
+        >
+        </p-inputmask>
+      </div>
+      @if ((licensePlateNumberInput.touched || serviceVehicleForm.submitted) && licensePlateNumberInput.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez entrer une immatriculation conforme</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="brandInput">Marque</label>
+        </div>
+        <p-select
+          #brandInput="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [options]="brandOptions"
+          [(ngModel)]="vehicle().brand"
+          id="brandInput"
+          class="uppercase-input"
+          optionValue="value"
+          optionLabel="label"
+          placeholder="Marque"
+          required
+        >
+        </p-select>
+      </div>
+      @if (serviceVehicleForm.submitted && brandInput.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez sélectionner une marque</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="model">Modèle</label>
+        </div>
+        <input
+          pInputText
+          #model="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="vehicle().model"
+          id="model"
+          required
+        >
+      </div>
+      @if ((serviceVehicleForm.submitted || model.touched) && model.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez indiquer le nom du modèle</span>
+        </div>
+      }
+
+      <div class="d-flex flex-row gap-2 align-items-center">
+        <div class="label">
+          <label for="nbSeats">Nombre de place</label>
+        </div>
+        <p-inputNumber
+          #nbSeats="ngModel"
+          [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="vehicle().nbSeats"
+          id="nbSeats"
+          required
+          min="1"
+        >
+        </p-inputNumber>
+      </div>
+      @if ((nbSeats.touched || serviceVehicleForm.submitted) && nbSeats.invalid) {
+        <div>
+          <span class="text-red-500">Veuillez sélectionner un nombre de places</span>
+        </div>
+      }
+      <div class="d-flex flex-row gap-2">
+        <p-button label="Ajouter" (click)="saveVehicle()"></p-button>
+      </div>
+    </div>
+  </ng-form>
+</p-dialog>

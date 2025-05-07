@@ -1,0 +1,179 @@
+@if (loading()) {
+  <p-progressSpinner></p-progressSpinner>
+}
+
+@if (carpooling(); as carpooling) {
+  <h2 class="text-decoration-underline">{{ title() }}</h2>
+  <ng-form #carpoolingForm="ngForm" class="d-flex flex-column gap-2">
+    <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="label">
+        <label for="departureAddress">Adresse de départ</label>
+      </div>
+      <input
+        pInputText
+        #departureAddress="ngModel"
+        id="departureAddress"
+        [(ngModel)]="carpooling.departureAddress"
+        name="departureAddress"
+        required
+        minlength="10"
+        [disabled]="!canModify()"
+      />
+    </div>
+    @if ((departureAddress.touched || carpoolingForm.submitted) && departureAddress.invalid) {
+      <div>
+        <span class="text-red-500">Veuillez entrer une immatriculation conforme</span>
+      </div>
+    }
+
+    <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="label">
+        <label for="dateTimeStart">Adresse de départ</label>
+      </div>
+      <p-datePicker
+        [ngModelOptions]="{standalone: true}"
+        inputId="dateTimeStart"
+        #dateTimeStart="ngModel"
+        [(ngModel)]="carpooling.dateTimeStart"
+        [disabled]="!canModify()"
+        [showTime]="true">
+      </p-datePicker>
+    </div>
+    @if ((dateTimeStart.touched || carpoolingForm.submitted) && dateTimeStart.invalid) {
+      <div>
+        <span class="text-red-500">Veuillez entrer une immatriculation conforme</span>
+      </div>
+    }
+
+    <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="label">
+        <label for="arrivalAddress">Adresse d'arrivée</label>
+      </div>
+      <input
+        pInputText
+        #arrivalAddress="ngModel"
+        id="arrivalAddress"
+        [(ngModel)]="carpooling.arrivalAddress"
+        name="arrivalAddress"
+        required
+        minlength="10"
+        [disabled]="!canModify()"
+      />
+    </div>
+    @if ((arrivalAddress.touched || carpoolingForm.submitted) && arrivalAddress.invalid) {
+      <div>
+        <span class="text-red-500">Veuillez entrer une immatriculation conforme</span>
+      </div>
+    }
+
+    <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="label">
+        <label for="duration">Durée du trajet</label>
+      </div>
+      <p-inputNumber
+        pInputText
+        #duration="ngModel"
+        id="duration"
+        [(ngModel)]="carpooling.duration"
+        name="duration"
+        required
+        minlength="10"
+        [disabled]="!canModify()"
+      >
+      </p-inputNumber>
+    </div>
+    @if ((duration.touched || carpoolingForm.submitted) && duration.invalid) {
+      <div>
+        <span class="text-red-500">Veuillez entrer une immatriculation conforme</span>
+      </div>
+    }
+
+    <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="label">
+        <label for="duration">Distance</label>
+      </div>
+      <p-inputNumber
+        pInputText
+        #distance="ngModel"
+        id="distance"
+        [(ngModel)]="carpooling.distance"
+        name="distance"
+        required
+        minlength="1"
+        suffix=" km"
+        [disabled]="!canModify()"
+      >
+      </p-inputNumber>
+    </div>
+    @if ((distance.touched || carpoolingForm.submitted) && distance.invalid) {
+      <div>
+        <span class="text-red-500">Veuillez entrer une distance en km</span>
+      </div>
+    }
+
+    <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="label">
+        <label for="nbSeats">Place disponibles</label>
+      </div>
+      <p-inputNumber
+        pInputText
+        #nbSeats="ngModel"
+        id="nbSeats"
+        [(ngModel)]="carpooling.nbSeats"
+        name="nbSeats"
+        required
+        min="1"
+        [disabled]="!canModify()"
+      >
+      </p-inputNumber>
+    </div>
+    @if ((nbSeats.touched || carpoolingForm.submitted) && nbSeats.invalid) {
+      <div>
+        <span class="text-red-500">Veuillez entrer un nombre de places disponibles</span>
+      </div>
+    }
+
+    <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="label">
+        <label for="vehicle">Véhicule</label>
+      </div>
+      <p-select
+        [options]="vehicles()"
+        [loading]="loadingVehicles()"
+        [disabled]="!canModify()"
+        [(ngModel)]="carpooling.vehicle"
+        [ngModelOptions]="{standalone: true}"
+        id="vehicle"
+        dataKey="licensePlateNumber"
+        #vehicle="ngModel"
+        optionLabel="licensePlateNumber"
+        placeholder="Véhicule"
+        emptyMessage="Aucun véhicule disponible"
+        required
+      >
+      </p-select>
+      @if (canModify()) {
+        <i class="pi pi-plus pointer" (click)="displayAddVehicule()"></i>
+      }
+    </div>
+    @if (carpoolingForm.submitted && carpooling.vehicle == null) {
+      <div>
+        <span class="text-red-500">Veuillez sélectionner une marque</span>
+      </div>
+    }
+
+    @if (canModify()) {
+      <div class="d-flex flex-row gap-2 align-items-center">
+      <p-button label="Enregistrer"
+                [disabled]="!canModify() || carpoolingForm.invalid || carpooling.vehicle == null || departureAddress.invalid || dateTimeStart.invalid || arrivalAddress.invalid"
+                (click)="saveCarpooling()"></p-button>
+
+      @if (carpoolingId() != null) {
+        <p-button label="Annuler" [disabled]="!canModify()" (click)="deleteCarpooling()"></p-button>
+      }
+      </div>
+    }
+  </ng-form>
+}
+
+<app-vehicle></app-vehicle>

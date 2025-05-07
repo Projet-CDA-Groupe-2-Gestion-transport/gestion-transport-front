@@ -57,8 +57,13 @@ export class AuthenticationService {
     if (decodedToken && decodedToken.roles && Array.isArray(decodedToken.roles)) {
       return decodedToken.roles.includes(role);
     }
-
-
     return false;
+  }
+
+  isConnectedUserName(username: string | undefined): boolean{
+    const token = this.getToken();
+    if (!token) return false;
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    return decodedToken.sub == username;
   }
 }

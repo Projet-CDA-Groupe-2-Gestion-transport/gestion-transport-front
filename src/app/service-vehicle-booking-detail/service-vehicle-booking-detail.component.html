@@ -1,0 +1,7 @@
+<h2>Détails de la réservation</h2>
+<div *ngIf="serviceVehicleBooking">
+  <p><strong>Véhicule :</strong> {{ serviceVehicleBooking.serviceVehicle }}</p>
+  <p><strong>Utilisateur :</strong> {{ serviceVehicleBooking.userId }}</p>
+  <p><strong>Date de début :</strong> {{ serviceVehicleBooking.dateTimeStart | date:'short' }}</p>
+  <p><strong>Date de fin :</strong> {{ serviceVehicleBooking.dateTimeEnd | date:'short' }}</p>
+</div>

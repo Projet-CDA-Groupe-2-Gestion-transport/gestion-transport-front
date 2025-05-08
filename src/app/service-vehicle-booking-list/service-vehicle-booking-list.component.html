@@ -1,0 +1,23 @@
+<h2>Liste des réservations</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Véhicule</th>
+      <th>Utilisateur</th>
+      <th>Début</th>
+      <th>Fin</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let booking of bookings">
+      <td>{{ booking.serviceVehicle.licensePlateNumber }}</td>
+      <td>{{ booking.userId }}</td>
+      <td>{{ booking.dateTimeStart | date:'short' }}</td>
+      <td>{{ booking.dateTimeEnd | date:'short' }}</td>
+      <td>
+        <button (click)="deleteBooking(booking.id)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

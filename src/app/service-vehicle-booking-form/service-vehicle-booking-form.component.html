@@ -1,0 +1,24 @@
+<app-title [title]="'Nouvelle réservation'"></app-title>
+<form [formGroup] = "form" (ngSubmit)="submitBooking()">
+ <label for="vehicleId">Sélectionner un véhicule:</label>
+<!-- <select id="vehicleId" formControlName= "vehicle" name="vehicleId" required>
+  <option value="" disabled selected>Sélectionner...</option>
+  <option *ngFor="let serviceVehicle of serviceVehicles" [value]="serviceVehicle.licensePlateNumber">
+    {{ serviceVehicle.model }} - {{ serviceVehicle.licensePlateNumber }}
+  </option>
+</select> -->
+
+
+    <p-select formControlName="vehicle" [options]="serviceVehicles" optionLabel="licensePlateNumber" optionValue="licensePlateNumber" placeholder="Sélectionner un vehicule" class="w-full md:w-56" />
+
+
+  <label for="dateTimeStart">Date et heure de début:</label>
+  <!-- <input id="dateTimeStart" type="datetime-local" formControlName="dateTimeStart" required /> -->
+<p-datepicker formControlName="dateTimeStart" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" [showTime]="true" />
+
+  <label for="dateTimeEnd">Date et heure de fin:</label>
+  <!-- <input id="dateTimeEnd" type="datetime-local"  formControlName="dateTimeEnd" required /> -->
+<p-datepicker formControlName="dateTimeEnd" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" [showTime]="true" />
+
+  <button type="submit">Réserver</button>
+</form>

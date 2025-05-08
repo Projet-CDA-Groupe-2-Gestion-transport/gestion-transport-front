@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component,} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {ToastModule} from 'primeng/toast';
 
@@ -6,7 +6,7 @@ import {ToastModule} from 'primeng/toast';
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    ToastModule
+    ToastModule, 
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

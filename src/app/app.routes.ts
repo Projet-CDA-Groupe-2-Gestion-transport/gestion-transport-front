@@ -4,6 +4,7 @@ import {carpoolingRoutes} from './features/carpooling/carpooling.routes';
 import {serviceVehicleRoutes} from './features/service-vehicle/service-vehicle.routes';
 import {AuthLayoutComponent} from './core/layouts/auth-layout/auth-layout.component';
 import {DefaultLayoutComponent} from './core/layouts/default-layout/default-layout.component';
+import { serviceVehicleBookingRoutes } from './features/service-vehicle/service-vehicle-booking.routes';
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
       },
       ...carpoolingRoutes,
       ...serviceVehicleRoutes,
+      ...serviceVehicleBookingRoutes,
       {
         path: '**',
         loadComponent: () => import('./core/pages/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent)

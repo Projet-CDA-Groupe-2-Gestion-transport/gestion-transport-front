@@ -38,11 +38,6 @@ export class LoginComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    this.initForm();
-  }
-
-
   private initForm() {
     this.form = this.fb.group(
       {
@@ -51,6 +46,11 @@ export class LoginComponent implements OnInit {
       }
     )
   }
+
+  ngOnInit(): void {
+    this.initForm();
+  }
+
 
   submit() {
     this.authService.login(this.form.getRawValue().username, this.form.getRawValue().password).pipe(

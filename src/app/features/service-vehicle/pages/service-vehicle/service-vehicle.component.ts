@@ -90,13 +90,13 @@ export class ServiceVehicleComponent {
   saveServiceVehicle() {
     this.serviceVehicleService.saveServiceVehicle(this.serviceVehicle()!).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
       next: (res: ServiceVehicle) => {
-        if (this.licensePlateNumber() == null)
+        if (this.licensePlateNumber() === null)
           this.router.navigate([`/service-vehicle/edit/${res.licensePlateNumber}`]);
         else
           this.serviceVehicle.set(res);
         this.messageSvc.add({
           severity: 'success',
-          summary:  `Véhicule ${this.serviceVehicle()!.licensePlateNumber}` + this.licensePlateNumber == null ?  `ajouté` : `mis à jour`,
+          summary:  `Véhicule ${this.serviceVehicle()!.licensePlateNumber}` + (this.licensePlateNumber === null ?  `ajouté` : `mis à jour`),
           icon: 'fa-solid fa-check'
         });
       }
@@ -105,7 +105,7 @@ export class ServiceVehicleComponent {
 
   deleteServiceVehicle() {
     this.serviceVehicleService.deleteServiceVehicle(this.licensePlateNumber()!).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
-      next: (res: ServiceVehicle) => {
+      next: () => {
         this.messageSvc.add({
           severity: 'success',
           summary:  `Véhicule ${this.serviceVehicle()!.licensePlateNumber} supprimé`,

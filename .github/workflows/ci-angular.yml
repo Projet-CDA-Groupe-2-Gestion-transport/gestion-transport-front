@@ -1,0 +1,33 @@
+name: CI/CD Angular
+
+on:
+  push:
+    branches: [ develop, main ]
+  pull_request:
+    branches: [ develop, main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code           # Clone le code sur la VM linux
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20          # Installe node v20 sur la VM
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies    # Installe les dépendances du projet
+        run: npm ci
+
+      - name: Run Linter              # Execute la commande pour le linter
+        run: npm run lint
+
+#      - name: Run Tests              # Execute les tests unitaires Angular
+#        run: npm run test -- --watch=false --browsers=ChromeHeadless --no-progress --code-coverage
+
+      - name: Build Angular App       # Créer un build de l'application
+        run: npm run build -- --configuration=production

@@ -20,11 +20,11 @@ export class ToastService {
     });
   }
 
-  success(title: string, description: string = ''){
+  success(title: string, description: string){
     this.messageService.add({severity: 'success', summary: title, detail: description})
   }
 
-  error(title: string, description: string = ''){
+  error(title: string, description: string){
     this.messageService.add({severity: 'error', summary: title, detail: description})
   }
 }

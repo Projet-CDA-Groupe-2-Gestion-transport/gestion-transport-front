@@ -8,7 +8,6 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {authInterceptor} from './core/interceptors/auth.interceptor';
 import {MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
-import {JwtHelperService} from '@auth0/angular-jwt';
 import {toastInterceptor} from './core/interceptors/toast.interceptor';
 
 export const appConfig: ApplicationConfig = {

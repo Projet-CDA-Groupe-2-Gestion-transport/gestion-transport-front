@@ -20,18 +20,18 @@ export class VehicleService {
   vehicleAddDialog$ = this.openVehicleAddDialog.asObservable();
 
   getAllVehicles(): Observable<Vehicle[]> {
-    return this.http.get<any>(`${this.baseUrl}`)
+    return this.http.get<Vehicle[]>(`${this.baseUrl}`)
   }
 
   saveVehicle(vehicle: Vehicle): Observable<Vehicle> {
-    return this.http.post<any>(`${this.baseUrl}`, vehicle)
+    return this.http.post<Vehicle>(`${this.baseUrl}`, vehicle)
   }
 
-  announceVehicleAdded(vehicle: Vehicle) {
+  announceVehicleAdded(vehicle: Vehicle): void {
     this.vehicleAddedSubject.next(vehicle);
   }
 
-  announceOpenVehicleAddDialog() {
+  announceOpenVehicleAddDialog(): void {
     this.openVehicleAddDialog.next();
   }
 }

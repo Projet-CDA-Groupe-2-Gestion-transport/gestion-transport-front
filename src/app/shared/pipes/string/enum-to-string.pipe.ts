@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EnumToStringPipe implements PipeTransform {
 
-  transform(value: String): string {
+  transform(value: string): string {
     if (!value) {
       return '';
     }

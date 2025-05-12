@@ -32,7 +32,7 @@ export class CarpoolingBookingListTableComponent {
 
     protected readonly carpoolingResponseList = signal<{
         value: CarpoolingBooking[] | undefined,
-        error: any
+        error: string | undefined
     } | undefined>(undefined);
 
     readonly loading = computed(() => !this.carpoolingResponseList());
@@ -69,9 +69,6 @@ export class CarpoolingBookingListTableComponent {
             },
             accept: () => {
                 this.carpoolingService.cancelUserBooking(carpoolingId).subscribe();
-            },
-            reject: () => {
-
             },
         });
     }

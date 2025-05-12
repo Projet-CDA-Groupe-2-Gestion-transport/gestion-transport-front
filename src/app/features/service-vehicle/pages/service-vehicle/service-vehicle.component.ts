@@ -1,7 +1,7 @@
 import {Component, computed, DestroyRef, inject, linkedSignal} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
-import {ServiceVehicleService} from '../../../../core/services/ServiceVehicleService';
+import {ServiceVehicleService} from '../../../../core/services/service-vehicle.service';
 import {catchError, map, of, switchMap} from 'rxjs';
 import {initServiceVehicle, ServiceVehicle} from '../../model/serviceVehicle';
 import {FormsModule} from '@angular/forms';

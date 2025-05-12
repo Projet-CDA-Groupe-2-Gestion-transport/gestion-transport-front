@@ -2,7 +2,7 @@ import {HttpInterceptorFn, HttpResponse} from '@angular/common/http';
 import {catchError, map, throwError} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {inject} from '@angular/core';
-import {AuthenticationService} from '../services/AuthenticationService';
+import {AuthenticationService} from '../services/authentication.service';
 import {ToastService} from '../adapters/toast.service';
 
 export const toastInterceptor: HttpInterceptorFn = (req, next) => {

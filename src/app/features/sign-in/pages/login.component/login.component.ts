@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AuthenticationService} from '../../../../core/services/AuthenticationService';
+import {AuthenticationService} from '../../../../core/services/authentication.service';
 import {catchError, of, tap} from 'rxjs';
 import {Router} from '@angular/router';
 import {ToastModule} from 'primeng/toast';

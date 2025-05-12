@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {ToastModule} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
-import {AuthenticationService} from './core/services/AuthenticationService';
+import {AuthenticationService} from './core/services/authentication.service';
 
 @Component({
   selector: 'app-root',

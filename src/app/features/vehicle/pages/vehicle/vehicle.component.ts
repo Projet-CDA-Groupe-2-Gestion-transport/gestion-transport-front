@@ -1,7 +1,7 @@
 import {Component, DestroyRef, inject, OnInit, signal, WritableSignal} from '@angular/core';
 import {BrandEnum} from '../../../../core/enums/brandEnum';
 import {CapitalizePipe} from '../../../../shared/pipes/string/capitalize.pipe';
-import {VehicleService} from '../../../../core/services/VehicleService';
+import {VehicleService} from '../../../../core/services/vehicle.service';
 import {initVehicle, Vehicle} from '../../models/vehicle';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MessageService} from 'primeng/api';

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AuthenticationService} from '../../services/AuthenticationService';
+import {AuthenticationService} from '../../services/authentication.service';
 import {Menubar} from 'primeng/menubar';
 import {MenuItem} from 'primeng/api';
 import {OverlayPanelModule} from 'primeng/overlaypanel';

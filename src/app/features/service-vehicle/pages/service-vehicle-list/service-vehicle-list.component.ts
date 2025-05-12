@@ -1,5 +1,5 @@
 import {Component, computed, DestroyRef, inject, linkedSignal} from '@angular/core';
-import {ServiceVehicleService} from '../../../../core/services/ServiceVehicleService';
+import {ServiceVehicleService} from '../../../../core/services/service-vehicle.service';
 import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
 import {catchError, map, of} from 'rxjs';
 import {ServiceVehicle} from '../../model/serviceVehicle';

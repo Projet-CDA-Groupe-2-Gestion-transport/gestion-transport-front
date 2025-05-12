@@ -1,5 +1,4 @@
 import {Component, computed, DestroyRef, inject, linkedSignal, OnInit} from '@angular/core';
-import {CarpoolingService} from '../../../../core/services/CarpoolingService';
 import {ActivatedRoute, Router} from '@angular/router';
 import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {catchError, map, of, switchMap} from 'rxjs';
@@ -11,11 +10,12 @@ import {DatePicker} from 'primeng/datepicker';
 import {InputNumber} from 'primeng/inputnumber';
 import {Select, SelectChangeEvent} from 'primeng/select';
 import {Button} from 'primeng/button';
-import {AuthenticationService} from '../../../../core/services/AuthenticationService';
+import {AuthenticationService} from '../../../../core/services/authentication.service';
 import {MessageService} from 'primeng/api';
-import {VehicleService} from '../../../../core/services/VehicleService';
+import {VehicleService} from '../../../../core/services/vehicle.service';
 import {Vehicle} from '../../../vehicle/models/vehicle';
 import {VehicleComponent} from '../../../vehicle/pages/vehicle/vehicle.component';
+import {CarpoolingService} from '../../../../core/services/carpooling.service';
 
 @Component({
   selector: 'app-carpooling',

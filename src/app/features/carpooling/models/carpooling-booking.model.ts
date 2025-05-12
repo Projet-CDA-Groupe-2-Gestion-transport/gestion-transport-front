@@ -1,4 +1,4 @@
-export interface Carpooling{
+export interface CarpoolingBooking{
   id: number;
   distance: number;
   dateTimeStart: Date;

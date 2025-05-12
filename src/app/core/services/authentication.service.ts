@@ -1,9 +1,10 @@
 import {HttpClient} from '@angular/common/http';
-import {tap} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment.development';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {Router} from '@angular/router';
+import {AuthResponse} from '../model/auth-response.model';
 
 
 @Injectable({
@@ -20,8 +21,8 @@ export class AuthenticationService {
     private router: Router
   ) {}
 
-  login(username: string, password: string) {
-    return this.http.post<any>(`${this.baseUrl}/auth/login`, { username, password }, {withCredentials: true}).pipe(
+  login(username: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.baseUrl}/auth/login`, { username, password }, {withCredentials: true}).pipe(
       tap((response) => {
         if (response.jwt) {
           this.saveToken(response.jwt);

@@ -20,7 +20,7 @@
           placeholder="AB-123-CD"
           required
           [unmask]="true"
-          [disabled]="licensePlateNumber() != null"
+          [disabled]="licensePlateNumber() !== null"
         >
         </p-inputmask>
       </div>
@@ -181,7 +181,7 @@
           optionValue="value"
           optionLabel="label"
           placeholder="Catégorie"
-          [disabled]="licensePlateNumber() == null"
+          [disabled]="licensePlateNumber() === null"
           required
         >
         </p-select>

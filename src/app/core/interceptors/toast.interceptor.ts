@@ -36,10 +36,10 @@ export const toastInterceptor: HttpInterceptorFn = (req, next) => {
       return event;
     }),
     catchError(error => {
-      let severity = 'error';
+      const severity = 'error';
       let summary = 'Erreur';
       let message = 'Une erreur est survenue';
-      let icon = 'fa-solid fa-xmark';
+      const icon = 'fa-solid fa-xmark';
 
       if (error.error) {
         if (typeof error.error === 'string') {

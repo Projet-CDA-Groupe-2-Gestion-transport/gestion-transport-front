@@ -16,7 +16,7 @@ import {CommonModule} from '@angular/common';
 })
 export class FormErrorComponent {
   control = input.required<AbstractControl | FormControl | null>();
-  errorMessages = input<{ [key: string]: string }>({
+  errorMessages = input<Record<string, string>>({
     'required': 'Ce champs est obligatoire',
     'minlength': 'La longueur minimale n\'est pas respectée',
     'maxlength': 'La longueur maximale est dépassée',

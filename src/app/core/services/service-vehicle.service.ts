@@ -15,7 +15,7 @@ export class ServiceVehicleService {
   constructor(private http: HttpClient) {}
 
   getAllServiceVehicle(): Observable<ServiceVehicle[]> {
-    return this.http.get<any>(`${this.baseUrl}`)
+    return this.http.get<ServiceVehicle[]>(`${this.baseUrl}`)
   }
 
   getServiceVehicleById(licensePlateNumber: string): Observable<ServiceVehicle> {
@@ -26,7 +26,7 @@ export class ServiceVehicleService {
     return this.http.post<ServiceVehicle>(`${this.baseUrl}`, serviceVehicle)
   }
 
-  deleteServiceVehicle(licensePlateNumber: string) {
-    return this.http.delete<any>(`${this.baseUrl}/${licensePlateNumber}`)
+  deleteServiceVehicle(licensePlateNumber: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${licensePlateNumber}`)
   }
 }

@@ -8,7 +8,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
 import {DatePicker} from 'primeng/datepicker';
 import {InputNumber} from 'primeng/inputnumber';
-import {Select, SelectChangeEvent} from 'primeng/select';
+import {Select} from 'primeng/select';
 import {Button} from 'primeng/button';
 import {AuthenticationService} from '../../../../core/services/authentication.service';
 import {MessageService} from 'primeng/api';
@@ -85,7 +85,7 @@ export class CarpoolingComponent implements OnInit {
   title = computed(() => this.carpooling()?.id !== 0 ? "Modifier l'annonce de covoiturage" : "Créer une annonce de covoiturage");
 
   canModify() {
-    return this.carpoolingId() == null || (this.authSvc.isConnectedUserName(this.carpooling()?.organisator?.username) && this.carpooling()?.users.length === 0);
+    return this.carpoolingId() === null || (this.authSvc.isConnectedUserName(this.carpooling()?.organisator?.username) && this.carpooling()?.users.length === 0);
   }
 
   saveCarpooling() {
@@ -111,7 +111,7 @@ export class CarpoolingComponent implements OnInit {
   }
 
   deleteCarpooling() {
-    this.carpoolingSvc.deleteCarpooling(+this.carpoolingId()!).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((res) => {
+    this.carpoolingSvc.deleteCarpooling(+this.carpoolingId()!).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe(() => {
       this.messageSvc.add({
         severity: 'success',
         summary: 'Annonce de covoiturage supprimée',

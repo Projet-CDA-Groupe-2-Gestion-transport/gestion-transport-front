@@ -52,7 +52,7 @@ export class ServiceVehicleListComponent {
 
   deleteServiceVehicle(licensePlateNumber: string) {
     this.serviceVehicleSvc.deleteServiceVehicle(licensePlateNumber).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
-      next: (res: ServiceVehicle) => {
+      next: () => {
         this.serviceVehicleList.set(this.serviceVehicleList()!.filter(sv => sv.licensePlateNumber !== licensePlateNumber));
         this.messageSvc.add({
           severity: 'success',

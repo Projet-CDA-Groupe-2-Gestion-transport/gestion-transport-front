@@ -153,10 +153,10 @@
       >
       </p-select>
       @if (canModify()) {
-        <i class="pi pi-plus pointer" (click)="displayAddVehicule()"></i>
+        <i class="pi pi-plus pointer" role="button" (click)="displayAddVehicule()"></i>
       }
     </div>
-    @if (carpoolingForm.submitted && carpooling.vehicle == null) {
+    @if (carpoolingForm.submitted && carpooling.vehicle === null) {
       <div>
         <span class="text-red-500">Veuillez sélectionner une marque</span>
       </div>
@@ -165,10 +165,10 @@
     @if (canModify()) {
       <div class="d-flex flex-row gap-2 align-items-center">
       <p-button label="Enregistrer"
-                [disabled]="!canModify() || carpoolingForm.invalid || carpooling.vehicle == null || departureAddress.invalid || dateTimeStart.invalid || arrivalAddress.invalid"
+                [disabled]="!canModify() || carpoolingForm.invalid || carpooling.vehicle === null || departureAddress.invalid || dateTimeStart.invalid || arrivalAddress.invalid"
                 (click)="saveCarpooling()"></p-button>
 
-      @if (carpoolingId() != null) {
+      @if (carpoolingId() !== null) {
         <p-button label="Annuler" [disabled]="!canModify()" (click)="deleteCarpooling()"></p-button>
       }
       </div>

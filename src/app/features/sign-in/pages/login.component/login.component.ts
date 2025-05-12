@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.authService.login(this.form.getRawValue().username, this.form.getRawValue().password).pipe(
-      tap(_ => this.router.navigate(['home'])),
+      tap(() => this.router.navigate(['home'])),
       catchError(err => {
         return of(err);
       })

@@ -16,7 +16,7 @@ export class CarpoolingService {
   private readonly http = inject(HttpClient);
 
   getAllCarpooling(): Observable<ServiceVehicle[]> {
-    return this.http.get<any>(`${this.baseUrl}`);
+    return this.http.get<ServiceVehicle[]>(`${this.baseUrl}`);
   }
 
   getCarpoolingById(id: number): Observable<Carpooling> {
@@ -24,11 +24,11 @@ export class CarpoolingService {
   }
 
   saveCarpooling(carpooling: Carpooling): Observable<Carpooling> {
-    return this.http.post<any>(`${this.baseUrl}`, carpooling);
+    return this.http.post<Carpooling>(`${this.baseUrl}`, carpooling);
   }
 
-  deleteCarpooling(id: number) {
-    return this.http.delete<any>(`${this.baseUrl}/${id}`);
+  deleteCarpooling(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
   getUserBooking(isArchived: boolean): Observable<CarpoolingBooking[]> {

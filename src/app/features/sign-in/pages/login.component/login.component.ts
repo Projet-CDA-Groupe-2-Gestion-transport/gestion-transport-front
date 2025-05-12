@@ -25,7 +25,6 @@ import {FormErrorComponent} from '../../../../core/components/form-error-compone
     FormErrorComponent
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
 
@@ -59,7 +58,5 @@ export class LoginComponent implements OnInit {
         return of(err);
       })
     ).subscribe();
-
-
   }
 }

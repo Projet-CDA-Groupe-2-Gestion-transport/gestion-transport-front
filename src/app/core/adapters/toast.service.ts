@@ -11,6 +11,15 @@ export class ToastService {
   ) {
   }
 
+  message(severity: string, summary: string, message: string, icon: string){
+    this.messageService.add({
+      severity,
+      summary,
+      detail: message,
+      icon
+    });
+  }
+
   success(title: string, description: string = ''){
     this.messageService.add({severity: 'success', summary: title, detail: description})
   }

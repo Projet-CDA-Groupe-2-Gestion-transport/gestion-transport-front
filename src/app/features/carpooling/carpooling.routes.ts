@@ -7,6 +7,10 @@ export const carpoolingRoutes: Routes = [
     children: [
       {path: 'edit/:id', loadComponent: () => import('./pages/carpooling/carpooling.component').then(m => m.CarpoolingComponent)},
       {path: 'new', loadComponent: () => import('./pages/carpooling/carpooling.component').then(m => m.CarpoolingComponent)},
-    ],
+      {
+        path: 'booking-list',
+        loadComponent: () => import('./pages/carpooling-booking-list/carpooling-booking-list.component').then(m => m.CarpoolingBookingListComponent),
+      }
+    ]
   }
 ];

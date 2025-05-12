@@ -8,6 +8,7 @@ export const NavItems = [
       },
       {
         label: 'Mes réservations',
+        routerLink: ['carpooling', 'booking-list']
       },
       {
         label: 'Mes annonces',

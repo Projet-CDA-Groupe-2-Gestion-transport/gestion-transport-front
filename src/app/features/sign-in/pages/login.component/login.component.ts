@@ -8,7 +8,6 @@ import {InputGroup} from "primeng/inputgroup";
 import {InputGroupAddon} from "primeng/inputgroupaddon";
 import {InputText} from "primeng/inputtext";
 import {Button} from "primeng/button";
-import {ToastService} from '../../../../core/adapters/toast.service';
 import {MessagesModule} from 'primeng/messages';
 import {emailValidator} from '../../../../core/validators/email.validator';
 import {FormErrorComponent} from '../../../../core/components/form-error-component/form-error.component';
@@ -36,7 +35,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private router: Router,
-    private toastService: ToastService
   ) {
   }
 
@@ -58,7 +56,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.form.getRawValue().username, this.form.getRawValue().password).pipe(
       tap(_ => this.router.navigate(['home'])),
       catchError(err => {
-        this.toastService.error('Identifiants incorrect', 'Votre email ou votre mot de passe est incorrect.');
         return of(err);
       })
     ).subscribe();

@@ -1,0 +1,40 @@
+<p-table [loading]="loading()" [value]="carpoolingList() || []">
+  <ng-template #header>
+    <tr>
+      <th>Date de départ</th>
+      <th>Adresse de départ</th>
+      <th>Adresse d'arrivée</th>
+      <th>Véhicule</th>
+      <th>Places restantes</th>
+      <th>Actions</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-carpooling>
+    <tr>
+      <td>{{ carpooling.dateTimeStart | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ carpooling.departureAddress | capitalize }}</td>
+      <td>{{ carpooling.arrivalAddress | capitalize }}</td>
+      <td>{{ carpooling.vehicle }}</td>
+      <td>{{ carpooling.nbPlacesRemaining }}</td>
+
+      <td>
+        <p-button label="Voir" class="me-1"></p-button>
+      </td>
+      @if (!isArchived()) {
+        <td>
+          <p-confirmDialog />
+          <p-button severity="danger" (click)="confirm($event, carpooling.id)" label="Annuler"></p-button>
+        </td>
+      }
+    </tr>
+  </ng-template>
+
+
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="7" class="text-center">Vous n'avez aucune réservation</td>
+    </tr>
+  </ng-template>
+
+</p-table>

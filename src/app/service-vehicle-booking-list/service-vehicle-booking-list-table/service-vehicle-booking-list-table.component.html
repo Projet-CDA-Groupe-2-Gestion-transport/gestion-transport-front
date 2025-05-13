@@ -1,0 +1,38 @@
+<p-table [loading]="loading()" [value]="serviceVehicleBookingList() || []">
+  <ng-template #header>
+    <tr>
+      <th>Véhicule</th>
+      <th>Utilisateur</th>
+      <th>Début</th>
+      <th>Fin</th>
+      <th>Actions</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-booking>
+    <tr>
+      <td>{{ booking.serviceVehicle?.licensePlateNumber | capitalize }}</td>
+      <td>{{ booking.user?.username}}</td>
+      <td>{{ booking.dateTimeStart | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ booking.dateTimeEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <p-button label="Voir" class="me-1"></p-button>
+      </td>
+      @if (!isArchived()) {
+        <td>
+          <p-confirmDialog />
+          <p-button severity="danger" (click)="confirm($event, booking.id)" label="Annuler"></p-button>
+        </td>
+        
+      }
+    </tr>
+  </ng-template>
+
+
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="7" class="text-center">Vous n'avez aucune réservation</td>
+    </tr>
+  </ng-template>
+
+</p-table>

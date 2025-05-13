@@ -44,9 +44,9 @@ export class CarpoolingListTableComponent {
     computed(() => this.carpoolingResponseList()?.value)
   );
 
-  cancel(idCarpooling: number) {
-    this.#carpoolingSvc.deleteCarpooling(idCarpooling).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe(() => {
-      const updatedCarpoolingList = this.carpoolingList()!.filter(carpooling => carpooling.id !== idCarpooling);
+  cancel(idCarpooling: number): void {
+    this.#carpoolingSvc.deleteCarpooling(idCarpooling).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((): void => {
+      const updatedCarpoolingList: Carpooling[] = this.carpoolingList()!.filter(carpooling => carpooling.id !== idCarpooling);
       this.carpoolingList.set(updatedCarpoolingList);
       this.#messageSvc.add({
         severity: 'success',
@@ -57,7 +57,7 @@ export class CarpoolingListTableComponent {
   }
 
 
-  edit(id: number) {
+  edit(id: number): void {
     this.#router.navigate(['/carpooling/edit', id]);
   }
 }

@@ -19,6 +19,10 @@ export class CarpoolingService {
     return this.http.get<ServiceVehicle[]>(`${this.baseUrl}`);
   }
 
+  getAllOrganisatorCarpooling(isArchived: boolean): Observable<Carpooling[]> {
+    return this.http.get<Carpooling[]>(`${this.baseUrl}/organisator`, {params: {isArchived}});
+  }
+
   getCarpoolingById(id: number): Observable<Carpooling> {
     return this.http.get<Carpooling>(`${this.baseUrl}/${id}`);
   }

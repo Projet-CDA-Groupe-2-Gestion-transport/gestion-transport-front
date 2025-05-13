@@ -1,0 +1,22 @@
+<div class="d-flex flex-row justify-content-between">
+  <app-title [title]="'Mes annonces de covoiturages'"></app-title>
+</div>
+
+<p-tabs value="0">
+  <p-tablist>
+    <p-tab (click)="activeTabValue.set(0)" value="0">En cours</p-tab>
+    <p-tab (click)="activeTabValue.set(1)" value="1">Historique</p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      @if (activeTabValue() === 0) {
+        <app-carpooling-list-table [isArchived]="false"></app-carpooling-list-table>
+      }
+    </p-tabpanel>
+    <p-tabpanel value="1">
+      @if (activeTabValue() === 1) {
+        <app-carpooling-list-table [isArchived]="true"></app-carpooling-list-table>
+      }
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>

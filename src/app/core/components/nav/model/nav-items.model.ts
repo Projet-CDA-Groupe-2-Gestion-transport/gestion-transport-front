@@ -12,6 +12,7 @@ export const NavItems = [
       },
       {
         label: 'Mes annonces',
+        routerLink: ['carpooling']
       },
     ],
   },

@@ -2,14 +2,16 @@ import { Component, computed, DestroyRef, effect, inject, input, linkedSignal, s
 import { ServiceVehicleBookingService } from '../../core/services/service-vehicle-booking.service';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CapitalizePipe } from '../../shared/pipes/string/capitalize.pipe';
 import { ConfirmationService } from 'primeng/api';
 import { ServiceVehicleBooking } from '../../features/service-vehicle/model/serviceVehicleBooking';
 import { catchError, map, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { addHours } from '../../shared/utils/date-utils';
+import { ServiceVehicleService } from '../../core/services/service-vehicle.service';
+import { ServiceVehicle } from '../../features/service-vehicle/model/serviceVehicle';
+
 
 @Component({
   selector: 'app-service-vehicle-booking-list-table',
@@ -17,7 +19,8 @@ import { addHours } from '../../shared/utils/date-utils';
     Button,
     DatePipe,
     CapitalizePipe,
-   ConfirmDialog],
+    ConfirmDialog,
+  CommonModule],
   providers: [ConfirmationService],
   templateUrl: './service-vehicle-booking-list-table.component.html',
 })
@@ -25,6 +28,7 @@ export class ServiceVehicleBookingListTableComponent {
   isArchived = input<boolean>(false);
   private readonly destroyRef = inject(DestroyRef);
   private readonly serviceVehicleBookingService = inject(ServiceVehicleBookingService);
+  private readonly serviceVehicleService = inject(ServiceVehicleService);
   private readonly confirmationService = inject(ConfirmationService);
 
   protected readonly serviceVehicleBookingResponseList = signal<{
@@ -47,6 +51,27 @@ export class ServiceVehicleBookingListTableComponent {
     ).subscribe((result) => this.serviceVehicleBookingResponseList.set(result));
   });
 
+  selectedBooking: ServiceVehicleBooking | null = null;
+  selectedVehicle: ServiceVehicle | null = null;
+
+viewDetails(booking: ServiceVehicleBooking) {
+    this.selectedBooking = booking;
+    this.selectedVehicle = null; // Reset while loading
+    this.serviceVehicleService.getServiceVehicleById(booking.licensePlateNumber).pipe(
+      takeUntilDestroyed(this.destroyRef),
+      catchError(err => {
+        console.error('Erreur lors de la récupération du véhicule:', err);
+        return of(null);
+      })
+    ).subscribe(vehicle => {
+      this.selectedVehicle = vehicle;
+    });
+  }
+
+  isSelectedBooking(booking: ServiceVehicleBooking): boolean {
+    return this.selectedBooking ? this.selectedBooking.id === booking.id : false;
+  }
+
   confirm(event: Event, bookingId: number) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -66,9 +91,23 @@ export class ServiceVehicleBookingListTableComponent {
       },
       accept: () => {
         this.serviceVehicleBookingService.deleteBooking(bookingId).subscribe({
+          next: () => {
+            console.log(`Réservation ${bookingId} supprimée.`);
+            this.serviceVehicleBookingService.getUserBookings(this.isArchived()).pipe(
+              map((value) => ({ value, error: undefined })),
+              catchError((error) => of({ value: undefined, error })),
+              takeUntilDestroyed(this.destroyRef)
+            ).subscribe((result) => this.serviceVehicleBookingResponseList.set(result));
+          },
           error: (err) => console.error('Erreur lors de la suppression :', err)
         });
       }
     });
   }
-}      
+     
+
+ resetSelection() {
+    this.selectedBooking = null;
+    this.selectedVehicle = null;
+  }
+}

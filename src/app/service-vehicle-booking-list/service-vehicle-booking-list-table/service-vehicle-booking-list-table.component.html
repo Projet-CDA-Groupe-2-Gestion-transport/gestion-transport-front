@@ -9,20 +9,17 @@
     </tr>
   </ng-template>
   <ng-template #body let-booking>
-    <tr>
+   <tr *ngIf="!isSelectedBooking(booking)">
       <td>{{ booking.licensePlateNumber | capitalize }}</td>
       <td>{{ booking.dateTimeStart | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>{{ booking.dateTimeEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>
-        <p-button label="Voir" class="me-1"></p-button>
+        <p-button label="Voir" class="me-1" (click)="viewDetails(booking)"></p-button>
       </td>
-      @if (!isArchived()) {
-        <td>
-          <p-confirmDialog />
+       <td *ngIf="!isArchived()">
+        
           <p-button severity="danger" (click)="confirm($event, booking.id)" label="Annuler"></p-button>
         </td>
-        
-      }
     </tr>
   </ng-template>
 
@@ -34,3 +31,24 @@
   </ng-template>
 
 </p-table>
+
+<p-confirmDialog></p-confirmDialog>
+
+<div *ngIf="selectedBooking && selectedVehicle" class="mt-4 p-4 border rounded shadow-sm">
+  <div class="mt-4 p-4 border rounded shadow-sm">
+    <h3>Détails du véhicule</h3>
+    <div class="flex gap-4">
+      <img [src]="selectedVehicle.photoUrl" alt="Photo du véhicule"
+        style="width: 200px; height: auto; object-fit: cover;" />
+      <div>
+        <p><strong>Immatriculation :</strong> {{ selectedVehicle.licensePlateNumber }}</p>
+        <p><strong>Marque :</strong> {{ selectedVehicle.brand }}</p>
+        <p><strong>Modèle :</strong> {{ selectedVehicle.model }}</p>
+        <p><strong>Nombre de places :</strong> {{ selectedVehicle.nbSeats }}</p>
+        <p *ngIf="selectedVehicle.co2Km !== undefined">
+          <strong>CO₂/km :</strong> {{ selectedVehicle.co2Km }}
+        </p>
+      </div>
+    </div>
+  </div>
+<p-button *ngIf="selectedBooking" label="Retour à la liste" (click)="resetSelection()"></p-button>

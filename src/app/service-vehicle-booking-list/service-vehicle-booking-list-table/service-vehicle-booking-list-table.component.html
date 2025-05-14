@@ -2,7 +2,6 @@
   <ng-template #header>
     <tr>
       <th>Véhicule</th>
-      <th>Utilisateur</th>
       <th>Début</th>
       <th>Fin</th>
       <th>Actions</th>
@@ -11,8 +10,7 @@
   </ng-template>
   <ng-template #body let-booking>
     <tr>
-      <td>{{ booking.serviceVehicle?.licensePlateNumber | capitalize }}</td>
-      <td>{{ booking.user?.username}}</td>
+      <td>{{ booking.licensePlateNumber | capitalize }}</td>
       <td>{{ booking.dateTimeStart | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>{{ booking.dateTimeEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>

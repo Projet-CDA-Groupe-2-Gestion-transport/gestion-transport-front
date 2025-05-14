@@ -9,6 +9,7 @@ import { ServiceVehicleBooking } from '../../features/service-vehicle/model/serv
 import { catchError, map, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { addHours } from '../../shared/utils/date-utils';
 
 @Component({
   selector: 'app-service-vehicle-booking-list-table',

@@ -8,6 +8,7 @@ import { TitleComponent } from "../shared/components/title/title.component";
 import { Select } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import {ServiceVehicleService} from '../core/services/service-vehicle.service';
+import { addHours } from '../shared/utils/date-utils'; 
 
 @Component({
   selector: 'app-service-vehicle-booking-form',
@@ -30,14 +31,27 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
       this.serviceVehicles = data;
       console.log(this.serviceVehicles)
     });
-    this.form = this.formbuilder.group({ vehicle: [null], dateTimeStart: [null], dateTimeEnd: [null] })
+    this.form = this.formbuilder.group({ licensePlateNumber: [null], dateTimeStart: [null], dateTimeEnd: [null]})
 
   }
   submitBooking(): void {
     console.log(this.form.getRawValue())
+   const timeZone = 'Europe/Paris';
     if (this.form.valid) {
-      const booking = this.form.getRawValue();
-      this.bookingService.createBooking(booking).subscribe();
-    }
+    const formValue = this.form.getRawValue();
+
+    const updatedStart = addHours(formValue.dateTimeStart, 2, timeZone);
+    const updatedEnd = addHours(formValue.dateTimeEnd, 2, timeZone);
+
+    const booking: ServiceVehicleBooking = {
+      id: 0,
+      userId: 0,
+      dateTimeStart: updatedStart,
+      dateTimeEnd: updatedEnd,
+      licensePlateNumber: formValue.licensePlateNumber
+    };
+
+    this.bookingService.createBooking(booking).subscribe();
   }
+}
 }

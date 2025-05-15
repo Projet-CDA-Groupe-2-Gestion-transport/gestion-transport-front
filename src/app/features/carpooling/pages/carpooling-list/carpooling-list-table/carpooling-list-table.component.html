@@ -19,7 +19,7 @@
       <td>{{ carpooling.nbSeats }}</td>
 
       <td>
-        <p-button label="Voir" class="me-1"></p-button>
+        <p-button (click)="edit(carpooling.id)" label="Voir" class="me-1"></p-button>
       </td>
       @if (!isArchived()) {
         <td>

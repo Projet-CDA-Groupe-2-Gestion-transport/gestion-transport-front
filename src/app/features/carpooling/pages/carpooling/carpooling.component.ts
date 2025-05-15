@@ -84,7 +84,7 @@ export class CarpoolingComponent implements OnInit {
   title = computed(() => this.carpooling()?.id !== 0 ? "Modifier l'annonce de covoiturage" : "Créer une annonce de covoiturage");
 
   canModify() {
-    return this.carpoolingId() === null || (this.authSvc.isConnectedUserName(this.carpooling()?.organisator?.username) && this.carpooling()?.users.length === 0);
+    return this.carpoolingId() === null || (this.authSvc.isConnectedUserName(this.carpooling()?.organisator?.username) && this.carpooling()?.users.length === 0 && this.carpooling()!.dateTimeStart > new Date());
   }
 
   saveCarpooling() {

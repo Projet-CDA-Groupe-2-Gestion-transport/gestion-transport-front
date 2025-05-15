@@ -1,4 +1,4 @@
-import {Component, computed, DestroyRef, inject, linkedSignal, OnInit, signal} from '@angular/core';
+import {Component, computed, DestroyRef, inject, linkedSignal, OnDestroy, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {InputTextModule} from 'primeng/inputtext';
 import {DatePickerModule} from 'primeng/datepicker';
@@ -10,37 +10,40 @@ import {CapitalizePipe} from '../../../../shared/pipes/string/capitalize.pipe';
 import {DatePipe, NgClass} from '@angular/common';
 import {TableModule} from 'primeng/table';
 import {Carpooling} from '../../models/carpooling';
-import {map} from 'rxjs';
+import {map, tap} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
+import {ModalConfirmBookingComponent} from '../../components/modal-confirm-booking/modal-confirm-booking.component';
+import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
-    selector: 'app-carpooling-search',
-    imports: [
-        InputTextModule,
-        ReactiveFormsModule,
-        DatePickerModule,
-        Button,
-        TitleComponent,
-        CapitalizePipe,
-        DatePipe,
-        TableModule,
-        NgClass,
-        ConfirmDialog
-    ],
-    providers: [ConfirmationService],
-    templateUrl: './carpooling-search.component.html',
-    styleUrl: './carpooling-search.component.scss'
+  selector: 'app-carpooling-search',
+  imports: [
+    InputTextModule,
+    ReactiveFormsModule,
+    DatePickerModule,
+    Button,
+    TitleComponent,
+    CapitalizePipe,
+    DatePipe,
+    TableModule,
+    NgClass,
+    ConfirmDialog,
+  ],
+  templateUrl: './carpooling-search.component.html',
+  styleUrl: './carpooling-search.component.scss'
 })
-export class CarpoolingSearchComponent implements OnInit {
+export class CarpoolingSearchComponent implements OnInit, OnDestroy {
 
-    form!: FormGroup;
-    private readonly fb = inject(FormBuilder);
-    private readonly carpoolingService = inject(CarpoolingService);
-    private readonly destroyRef = inject(DestroyRef);
-    private readonly confirmationService = inject(ConfirmationService);
-    isSubmitted = signal<boolean>(false);
+  form!: FormGroup;
+  modalRef: DynamicDialogRef | undefined;
+  private readonly fb = inject(FormBuilder);
+  private readonly carpoolingService = inject(CarpoolingService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly dialogService = inject(DialogService);
+  isSubmitted = signal<boolean>(false);
 
     protected readonly carpoolingResponseList = signal<{
         value: Carpooling[],
@@ -57,13 +60,19 @@ export class CarpoolingSearchComponent implements OnInit {
         this.initForm();
     }
 
-    private initForm() {
-        this.form = this.fb.group({
-            departureAddress: [],
-            arrivalAddress: [],
-            dateTimeStart: []
-        }, {validators: [minNumberFieldsRequired(['departureAddress', 'arrivalAddress', 'dateTimeStart'], 1)]});
+  ngOnDestroy() {
+    if (this.modalRef) {
+      this.modalRef.close();
     }
+  }
+
+  private initForm() {
+    this.form = this.fb.group({
+      departureAddress: [],
+      arrivalAddress: [],
+      dateTimeStart: []
+    }, {validators: [minNumberFieldsRequired(['departureAddress', 'arrivalAddress', 'dateTimeStart'], 1)]});
+  }
 
     search() {
         if (this.form.valid) {
@@ -92,27 +101,55 @@ export class CarpoolingSearchComponent implements OnInit {
         }
     }
 
-    confirm(event: Event, carpoolingId: number) {
-        this.confirmationService.confirm({
-            target: event.target as EventTarget,
-            message: 'Confirmez vous votre réservation pour ce covoiturage?',
-            header: 'Confirmation',
-            closable: true,
-            closeOnEscape: true,
-            icon: 'pi pi-check',
-            rejectButtonProps: {
-                label: 'Non',
-                severity: 'secondary',
-                outlined: true,
-            },
-            acceptButtonProps: {
-                label: 'Oui',
-                severity: 'primary'
-            },
-            accept: () => {
-                this.carpoolingService.cancelUserBooking(carpoolingId).subscribe();
-            },
-        });
+  openModalsaveBooking(event: Event, carpooling: Carpooling) {
+    console.log(carpooling)
+    if (carpooling.id === null) {
+      return;
     }
+    this.modalRef = this.dialogService.open(ModalConfirmBookingComponent, {
+      data: {
+        carpooling
+      }
+    })
 
+    this.modalRef.onClose.subscribe((result) => {
+      if (result) {
+        console.log('Modal fermée avec résultat:', result);
+      }
+    });
+  }
+
+  cancelBooking(event: Event, carpooling: Carpooling) {
+    if (!carpooling.id) {
+      return;
+    }
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Confirmez vous l\'annulation de votre réservation pour ce covoiturage?',
+      header: 'Annulation',
+      closable: true,
+      closeOnEscape: true,
+      rejectButtonProps: {
+        label: 'Non',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Oui',
+        severity: 'danger'
+      },
+      accept: () => {
+        this.carpoolingService.cancelUserBooking(carpooling.id!)
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            tap(() => {
+              carpooling.hasBooked = false;
+            })
+          ).subscribe();
+      },
+    });
+  }
+
+
+  protected readonly Date = Date;
 }

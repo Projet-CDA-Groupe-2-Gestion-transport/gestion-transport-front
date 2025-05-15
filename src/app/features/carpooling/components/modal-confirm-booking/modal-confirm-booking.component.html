@@ -1,0 +1,83 @@
+<div>
+  <!-- Header de la modale -->
+  <div>
+    <h2 class="p-0">Confirmer la réservation</h2>
+  </div>
+
+  <!-- Corps de la modale -->
+  <div>
+    <dl>
+      <div>
+        <dt class="fw-bold">Départ :</dt>
+        <dd>{{ carpooling.departureAddress }}</dd>
+      </div>
+
+      <div>
+        <dt class="fw-bold">Arrivée :</dt>
+        <dd>{{ carpooling.arrivalAddress }}</dd>
+      </div>
+
+      <div>
+        <dt class="fw-bold">Date et heure de départ :</dt>
+        <dd>{{ carpooling.dateTimeStart | date:'dd/MM/yyyy à HH:mm' }}</dd>
+      </div>
+
+      <div>
+        <dt class="fw-bold">Organisateur : </dt>
+        <dd>{{ carpooling.organisator?.username }}</dd>
+      </div>
+
+      <div>
+        <dt class="fw-bold">Adresse de départ :</dt>
+        <dd>{{ carpooling.departureAddress }}</dd>
+      </div>
+
+      <div>
+        <dt class="fw-bold">Véhicule :</dt>
+        <dd>{{ carpooling.vehicle }}</dd>
+      </div>
+
+      <div>
+        <dt class="fw-bold">Nombre de place :</dt>
+        <dd>{{ carpooling.nbSeats }}</dd>
+      </div>
+
+      <div>
+        <dt>Liste des participants:</dt>
+        <dl>
+          @if (participants$ | async; as participants) {
+            <ul>
+              @for (participant of participants; track participant.id) {
+                <li>{{ participant.username }}</li>
+              }
+            </ul>
+            @if (participants.length === 0) {
+              <p>Aucun participant à ce covoiturage</p>
+            }
+          }
+        </dl>
+      </div>
+
+    </dl>
+
+    <hr>
+    <div class="confirmation-message">
+      <p>Êtes-vous sûr de vouloir réserver ce covoiturage ?</p>
+    </div>
+  </div>
+
+  <!-- Footer avec les boutons -->
+  <div class="d-flex justify-content-end gap-1">
+    <p-button
+      label="Annuler"
+      severity="secondary"
+      outlined="true"
+      (click)="close()">
+    </p-button>
+    <p-button
+      label="Confirmer"
+      severity="primary"
+      (click)="confirm()">
+    </p-button>
+  </div>
+</div>

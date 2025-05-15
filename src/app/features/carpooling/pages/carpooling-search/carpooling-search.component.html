@@ -9,7 +9,7 @@
     <input pInputText id="arrivalAddress" aria-describedby="arrivalAddress" formControlName="arrivalAddress"/>
   </div>
   <div class="d-flex flex-column gap-2">
-    <label for="arrivalAddress">Adresse d'arrivée</label>
+    <label for="arrivalAddress">Date de départ</label>
     <p-datePicker
       inputId="dateTimeStart"
       formControlName="dateTimeStart"
@@ -27,13 +27,12 @@
   <p-table [loading]="loading()" [value]="carpoolingList() || []">
     <ng-template #header>
       <tr>
-        <th>Date de départ</th>
-        <th>Adresse de départ</th>
-        <th>Adresse d'arrivée</th>
-        <th>Véhicule</th>
-        <th>Places restantes</th>
-        <th>Actions</th>
-        <th></th>
+        <th class="text-center">Date de départ</th>
+        <th class="text-center">Adresse de départ</th>
+        <th class="text-center">Adresse d'arrivée</th>
+        <th class="text-center">Véhicule</th>
+        <th class="text-center">Places restantes</th>
+        <th class="text-center">Actions</th>
       </tr>
     </ng-template>
     <ng-template #body let-carpooling >
@@ -45,8 +44,11 @@
         <td>{{ carpooling.nbSeatsRemaining }} / {{carpooling.nbSeats}}</td>
 
         <td>
-          @if (carpooling.nbSeatsRemaining > 0) {
-            <p-button label="Réserver" class="me-1" (click)="confirm($event, carpooling.id)"></p-button>
+          @if (carpooling.nbSeatsRemaining > 0 && carpooling.dateTimeStart >= Date.now() && !carpooling.hasBooked) {
+            <p-button label="Réserver" class="me-1" (click)="openModalsaveBooking($event, carpooling)"></p-button>
+          }
+          @if (carpooling.hasBooked) {
+            <p-button label="Annuler" severity="warn" class="me-1" (click)="cancelBooking($event, carpooling)"></p-button>
           }
         </td>
       </tr>

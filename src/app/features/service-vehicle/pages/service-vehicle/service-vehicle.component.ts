@@ -112,6 +112,7 @@ export class ServiceVehicleComponent {
           icon: 'fa-solid fa-check'
         });
         this.router.navigate([`/service-vehicle/list`]);
+
       }
     });
   }

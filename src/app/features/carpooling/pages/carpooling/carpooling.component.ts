@@ -34,7 +34,6 @@ import {CarpoolingService} from '../../../../core/services/carpooling.service';
   styleUrl: './carpooling.component.scss'
 })
 export class CarpoolingComponent implements OnInit {
-
   private readonly carpoolingSvc = inject(CarpoolingService);
   private readonly vehicleSvc = inject(VehicleService);
   private readonly route = inject(ActivatedRoute);
@@ -96,7 +95,7 @@ export class CarpoolingComponent implements OnInit {
         summary: 'Annonce de covoiturage enregistrée',
         icon: 'fa-solid fa-check'
       });
-      this.router.navigate([`/carpooling/edit/${res.id}`]);
+      this.router.navigate([`/carpooling/${res.id}`]);
     });
   }
 

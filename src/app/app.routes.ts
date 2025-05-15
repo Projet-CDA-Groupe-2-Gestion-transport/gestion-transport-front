@@ -8,11 +8,11 @@ import { serviceVehicleBookingRoutes } from './features/service-vehicle/service-
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'login',
     component: AuthLayoutComponent,
     children: [
       {
-        path: 'login',
+        path: '',
         loadComponent: () => import('./features/sign-in/pages/login.component/login.component').then(m => m.LoginComponent)
       }
     ]
@@ -23,7 +23,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'home',
+        path: '',
         loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
       },
       ...carpoolingRoutes,

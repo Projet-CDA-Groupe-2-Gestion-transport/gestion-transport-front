@@ -1,11 +1,11 @@
-import {Component, computed, DestroyRef, inject, input, linkedSignal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, linkedSignal} from '@angular/core';
 import {Button} from "primeng/button";
 import {CapitalizePipe} from "../../../../../shared/pipes/string/capitalize.pipe";
 import {DatePipe} from "@angular/common";
 import {TableModule} from "primeng/table";
 import {CarpoolingService} from '../../../../../core/services/carpooling.service';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
-import {catchError, map, of} from 'rxjs';
+import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
+import {catchError, distinctUntilChanged, map, of, switchMap} from 'rxjs';
 import {Carpooling} from '../../../models/carpooling';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
@@ -19,7 +19,8 @@ import {MessageService} from 'primeng/api';
         TableModule
     ],
   templateUrl: './carpooling-list-table.component.html',
-  styleUrl: './carpooling-list-table.component.scss'
+  styleUrl: './carpooling-list-table.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarpoolingListTableComponent {
 
@@ -29,13 +30,16 @@ export class CarpoolingListTableComponent {
   readonly #destroyRef = inject(DestroyRef);
   readonly #messageSvc = inject(MessageService);
 
-  private readonly carpoolingResponseList = toSignal(this.#carpoolingSvc.getAllOrganisatorCarpooling(this.isArchived())
-    .pipe(map((value) => ({
-        value,
-        error: undefined
-      })),
-      catchError((error) => of({value: undefined, error}))
-    )
+  private readonly carpoolingResponseList = toSignal(
+      toObservable(this.isArchived).pipe(
+          distinctUntilChanged(),
+          switchMap((archived) =>
+              this.#carpoolingSvc.getAllOrganisatorCarpooling(archived).pipe(
+                  map((value) => ({ value, error: undefined })),
+                  catchError((error) => of({ value: undefined, error }))
+              )
+          )
+      )
   );
 
   readonly loading = computed(() => !this.carpoolingResponseList());
@@ -58,6 +62,6 @@ export class CarpoolingListTableComponent {
 
 
   edit(id: number): void {
-    this.#router.navigate(['/carpooling/edit', id]);
+    this.#router.navigate(['/carpooling/', id]);
   }
 }

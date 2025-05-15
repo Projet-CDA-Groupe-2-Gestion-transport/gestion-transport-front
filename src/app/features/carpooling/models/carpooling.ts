@@ -12,6 +12,7 @@ export interface Carpooling {
     organisator: User | null;
     nbSeats: number;
     users: User[];
+    hasBooked?: boolean;
 }
 
 export function initCarpooling(): Carpooling {
@@ -26,5 +27,6 @@ export function initCarpooling(): Carpooling {
     organisator: null,
     nbSeats: 0,
     users: [],
+    hasBooked: false
   };
 }

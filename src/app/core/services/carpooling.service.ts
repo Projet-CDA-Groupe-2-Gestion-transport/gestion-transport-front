@@ -24,6 +24,7 @@ export class CarpoolingService {
   }
 
   getCarpoolingById(id: number): Observable<Carpooling> {
+    console.log("getbyid");
     return this.http.get<Carpooling>(`${this.baseUrl}/${id}`);
   }
 

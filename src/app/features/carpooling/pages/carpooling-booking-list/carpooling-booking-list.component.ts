@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, signal, WritableSignal} from '@angular/core';
 import {TableModule} from 'primeng/table';
 import {TitleComponent} from '../../../../shared/components/title/title.component';
 import {Button} from 'primeng/button';
@@ -23,7 +23,7 @@ import {
   templateUrl: './carpooling-booking-list.component.html',
 })
 export class CarpoolingBookingListComponent{
-  activeTabValue= 0;
+  activeTabValue: WritableSignal<number> = signal(0);
 
 
 }

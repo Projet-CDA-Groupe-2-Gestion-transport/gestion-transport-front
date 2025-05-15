@@ -5,18 +5,18 @@
 
 <p-tabs value="0">
   <p-tablist>
-    <p-tab (click)="activeTabValue = 0" value="0">En cours</p-tab>
-    <p-tab (click)="activeTabValue = 1" value="1">Historique</p-tab>
+    <p-tab (click)="activeTabValue.set(0)" value="0">En cours</p-tab>
+    <p-tab (click)="activeTabValue.set(1)" value="1">Historique</p-tab>
   </p-tablist>
   <p-tabpanels>
     <p-tabpanel value="0">
-      @if (activeTabValue === 0) {
-        <app-carpooling-booking-list-table></app-carpooling-booking-list-table>
+      @if (activeTabValue() === 0) {
+        <app-carpooling-booking-list-table [isArchived]="activeTabValue() !== 0"></app-carpooling-booking-list-table>
       }
     </p-tabpanel>
     <p-tabpanel value="1">
-      @if (activeTabValue === 1) {
-        <app-carpooling-booking-list-table [isArchived]="true"></app-carpooling-booking-list-table>
+      @if (activeTabValue() === 1) {
+        <app-carpooling-booking-list-table [isArchived]="activeTabValue() !== 0"></app-carpooling-booking-list-table>
       }
     </p-tabpanel>
   </p-tabpanels>

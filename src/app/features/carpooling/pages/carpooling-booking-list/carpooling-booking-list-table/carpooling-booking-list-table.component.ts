@@ -1,9 +1,9 @@
-import {Component, computed, DestroyRef, effect, inject, input, linkedSignal, signal} from '@angular/core';
+import {Component, computed, DestroyRef, inject, input, linkedSignal} from '@angular/core';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {CarpoolingService} from '../../../../../core/services/carpooling.service';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {catchError, map, of} from 'rxjs';
+import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
+import {catchError, distinctUntilChanged, map, of, switchMap} from 'rxjs';
 import {DatePipe} from '@angular/common';
 import {CapitalizePipe} from '../../../../../shared/pipes/string/capitalize.pipe';
 import {ConfirmationService} from 'primeng/api';
@@ -26,14 +26,22 @@ export class CarpoolingBookingListTableComponent {
 
     isArchived = input<boolean>(false);
 
-    private readonly destroyRef = inject(DestroyRef);
-    private readonly carpoolingService = inject(CarpoolingService);
-    private readonly confirmationService = inject(ConfirmationService);
+    readonly #destroyRef = inject(DestroyRef);
+    readonly #carpoolingService = inject(CarpoolingService);
+    readonly #confirmationService = inject(ConfirmationService);
 
-    protected readonly carpoolingResponseList = signal<{
-        value: CarpoolingBooking[] | undefined,
-        error: string | undefined
-    } | undefined>(undefined);
+
+  private readonly carpoolingResponseList = toSignal(
+    toObservable(this.isArchived).pipe(
+      distinctUntilChanged(),
+      switchMap((archived) =>
+        this.#carpoolingService.getUserBooking(archived).pipe(
+          map((value : CarpoolingBooking[] | undefined) => ({ value, error: undefined })),
+          catchError((error:  string | undefined) => of({ value: undefined, error }))
+        )
+      )
+    )
+  );
 
     readonly loading = computed(() => !this.carpoolingResponseList());
 
@@ -41,17 +49,9 @@ export class CarpoolingBookingListTableComponent {
         computed(() => this.carpoolingResponseList()?.value)
     );
 
-    private readonly loadBookingsEffect = effect(() => {
-        const archived = this.isArchived();
-        this.carpoolingService.getUserBooking(archived).pipe(
-            map((value) => ({value, error: undefined})),
-            catchError((error) => of({value: undefined, error})),
-            takeUntilDestroyed(this.destroyRef)
-        ).subscribe((result) => this.carpoolingResponseList.set(result));
-    });
 
     confirm(event: Event, carpoolingId: number) {
-        this.confirmationService.confirm({
+        this.#confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Etes-vous sûr de vouloir annuler votre participation à ce covoiturage?',
             header: 'Confirmation',
@@ -68,7 +68,9 @@ export class CarpoolingBookingListTableComponent {
                 severity: 'danger'
             },
             accept: () => {
-                this.carpoolingService.cancelUserBooking(carpoolingId).subscribe();
+                this.#carpoolingService.cancelUserBooking(carpoolingId).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe(() => {
+                    this.carpoolingList.set(this.carpoolingList()!.filter(carpoolingBooking => carpoolingBooking.id !== carpoolingId));
+                });
             },
         });
     }

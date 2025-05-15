@@ -1,0 +1,68 @@
+<app-title [title]="'Rechercher un covoiturage'"></app-title>
+<form [formGroup]="form" (submit)="search()" class="d-flex flex-row justify-content-around">
+  <div class="d-flex flex-column gap-2">
+    <label for="departureAddress">Adresse de départ</label>
+    <input pInputText id="departureAddress" aria-describedby="departureAddress" formControlName="departureAddress"/>
+  </div>
+  <div class="d-flex flex-column gap-2">
+    <label for="arrivalAddress">Adresse d'arrivée</label>
+    <input pInputText id="arrivalAddress" aria-describedby="arrivalAddress" formControlName="arrivalAddress"/>
+  </div>
+  <div class="d-flex flex-column gap-2">
+    <label for="arrivalAddress">Adresse d'arrivée</label>
+    <p-datePicker
+      inputId="dateTimeStart"
+      formControlName="dateTimeStart"
+      [iconDisplay]="'input'"
+      [showIcon]="true"
+    >
+    </p-datePicker>
+  </div>
+  <div class="h-auto d-flex align-items-end">
+    <p-button type="submit" label="Rechercher" icon="pi pi-search" [disabled]="!form.valid"></p-button>
+  </div>
+</form>
+
+<div class="mt-5">
+  <p-table [loading]="loading()" [value]="carpoolingList() || []">
+    <ng-template #header>
+      <tr>
+        <th>Date de départ</th>
+        <th>Adresse de départ</th>
+        <th>Adresse d'arrivée</th>
+        <th>Véhicule</th>
+        <th>Places restantes</th>
+        <th>Actions</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-carpooling >
+      <tr [ngClass]="{'bg-light text-muted': carpooling.nbSeatsRemaining === 0}">
+        <td>{{ carpooling.dateTimeStart | date: 'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ carpooling.departureAddress | capitalize }}</td>
+        <td>{{ carpooling.arrivalAddress | capitalize }}</td>
+        <td>{{ carpooling.vehicle }}</td>
+        <td>{{ carpooling.nbSeatsRemaining }} / {{carpooling.nbSeats}}</td>
+
+        <td>
+          @if (carpooling.nbSeatsRemaining > 0) {
+            <p-button label="Réserver" class="me-1" (click)="confirm($event, carpooling.id)"></p-button>
+          }
+        </td>
+      </tr>
+    </ng-template>
+
+
+    <ng-template #emptymessage>
+      <tr>
+        @if (isSubmitted()) {
+          <td colspan="7" class="text-center">Aucune annonce ne correspond à votre recherche</td>
+        } @else {
+          <td colspan="7" class="text-center">Veuillez saisir au moins un critère de recherche</td>
+        }
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>
+<p-confirmDialog />

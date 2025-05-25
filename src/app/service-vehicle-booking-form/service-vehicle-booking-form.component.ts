@@ -40,8 +40,8 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
     if (this.form.valid) {
     const formValue = this.form.getRawValue();
 
-    const updatedStart = addHours(formValue.dateTimeStart, 2, timeZone);
-    const updatedEnd = addHours(formValue.dateTimeEnd, 2, timeZone);
+    const updatedStart = new Date(formValue.dateTimeStart).toLocaleString('sv-SE', { timeZone });
+    const updatedEnd = new Date(formValue.dateTimeEnd).toLocaleString('sv-SE', { timeZone });
 
     const booking: ServiceVehicleBooking = {
       id: 0,

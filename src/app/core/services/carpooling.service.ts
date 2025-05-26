@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {ServiceVehicle} from '../../features/service-vehicle/model/serviceVehicle';
 import {Carpooling} from '../../features/carpooling/models/carpooling';
 import {CarpoolingBooking} from '../../features/carpooling/models/carpooling-booking.model';
+import {CarpoolingSearchParams} from '../../features/carpooling/models/carpooling-search-params';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,24 @@ export class CarpoolingService {
     return this.http.get<ServiceVehicle[]>(`${this.baseUrl}`);
   }
 
+  getAllOrganisatorCarpooling(isArchived: boolean): Observable<Carpooling[]> {
+    return this.http.get<Carpooling[]>(`${this.baseUrl}/organisator`, {params: {isArchived}});
+  }
+
   getCarpoolingById(id: number): Observable<Carpooling> {
     return this.http.get<Carpooling>(`${this.baseUrl}/${id}`);
+  }
+
+  search(params: CarpoolingSearchParams): Observable<Carpooling[]> {
+    const filteredParams = Object.entries(params)
+      .filter((value) => value[1] !== null && value[1] !== undefined)
+      .reduce((obj, [key, value]) => ({
+        ...obj,
+        [key]: String(value)
+      }), {});
+
+    return this.http.get<Carpooling[]>(`${this.baseUrl}/search`,
+      {params: filteredParams})
   }
 
   saveCarpooling(carpooling: Carpooling): Observable<Carpooling> {

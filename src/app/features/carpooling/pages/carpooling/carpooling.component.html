@@ -28,9 +28,10 @@
 
     <div class="d-flex flex-row gap-2 align-items-center">
       <div class="label">
-        <label for="dateTimeStart">Adresse de départ</label>
+        <label for="dateTimeStart">Date de départ</label>
       </div>
       <p-datePicker
+        id="dateTimeStart"
         [ngModelOptions]="{standalone: true}"
         inputId="dateTimeStart"
         #dateTimeStart="ngModel"

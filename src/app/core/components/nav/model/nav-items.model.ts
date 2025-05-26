@@ -5,6 +5,7 @@ export const NavItems = [
     items: [
       {
         label: 'Rechercher',
+        routerLink: ['carpooling', 'search']
       },
       {
         label: 'Mes réservations',
@@ -12,6 +13,7 @@ export const NavItems = [
       },
       {
         label: 'Mes annonces',
+        routerLink: ['carpooling']
       },
     ],
   },

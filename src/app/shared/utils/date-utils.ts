@@ -1,10 +1,6 @@
-import * as moment from 'moment-timezone';
-export function addHours(date: Date, hours: number, timeZone: string = 'UTC'): Date {
-  let totalHours = hours;
+import moment from 'moment';
 
-  if (timeZone === 'Europe/Paris') {
-    totalHours += 2; 
-  }
 
-  return moment.tz(date, timeZone).add(totalHours, 'hours').toDate();
+export function toLocalDateTime(date: Date): string {
+  return moment(date).format("YYYY-MM-DDTHH:mm:ss");
 }

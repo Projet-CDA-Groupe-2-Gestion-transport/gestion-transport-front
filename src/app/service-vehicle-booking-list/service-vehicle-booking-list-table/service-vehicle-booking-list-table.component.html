@@ -14,7 +14,10 @@
       <td>{{ booking.dateTimeStart | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>{{ booking.dateTimeEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>
-        <p-button label="Voir" class="me-1" (click)="viewDetails(booking)"></p-button>
+        <p-button label="Voir véhicule" class="me-1" (click)="viewDetails(booking)"></p-button>
+      </td>
+      <td>
+        <p-button label="Modification" class="me-1" (click)="modify(booking)"></p-button>
       </td>
        <td *ngIf="!isArchived()">
         
@@ -36,7 +39,6 @@
 
 <div *ngIf="selectedBooking && selectedVehicle" class="mt-4 p-4 border rounded shadow-sm">
   <div class="mt-4 p-4 border rounded shadow-sm">
-    <h3>Détails du véhicule</h3>
     <div class="flex gap-4">
       <img [src]="selectedVehicle.photoUrl" alt="Photo du véhicule"
         style="width: 200px; height: auto; object-fit: cover;" />

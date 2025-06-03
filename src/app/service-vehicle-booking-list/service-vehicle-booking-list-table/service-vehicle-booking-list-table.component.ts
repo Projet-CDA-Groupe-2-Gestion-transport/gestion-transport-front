@@ -11,21 +11,23 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ServiceVehicleService } from '../../core/services/service-vehicle.service';
 import { ServiceVehicle } from '../../features/service-vehicle/model/serviceVehicle';
+import { Router } from '@angular/router'; 
 
 
 @Component({
   selector: 'app-service-vehicle-booking-list-table',
   imports: [TableModule,
     Button,
-    DatePipe,
-    CapitalizePipe,
+    CapitalizePipe,DatePipe,
     ConfirmDialog,
   CommonModule],
   providers: [ConfirmationService],
   templateUrl: './service-vehicle-booking-list-table.component.html',
 })
 export class ServiceVehicleBookingListTableComponent {
+
   isArchived = input<boolean>(false);
+  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly serviceVehicleBookingService = inject(ServiceVehicleBookingService);
   private readonly serviceVehicleService = inject(ServiceVehicleService);
@@ -41,15 +43,6 @@ export class ServiceVehicleBookingListTableComponent {
   readonly serviceVehicleBookingList = linkedSignal<ServiceVehicleBooking[] | undefined>(
     computed(() => this.serviceVehicleBookingResponseList()?.value)
   );
-
-  private readonly loadBookingsEffect = effect(() => {
-    const archived = this.isArchived();
-    this.serviceVehicleBookingService.getUserBookings(archived).pipe(
-      map((value) => ({ value, error: undefined })),
-      catchError((error) => of({ value: undefined, error })),
-      takeUntilDestroyed(this.destroyRef)
-    ).subscribe((result) => this.serviceVehicleBookingResponseList.set(result));
-  });
 
   selectedBooking: ServiceVehicleBooking | null = null;
   selectedVehicle: ServiceVehicle | null = null;
@@ -67,10 +60,26 @@ viewDetails(booking: ServiceVehicleBooking) {
       this.selectedVehicle = vehicle;
     });
   }
-
+modify (booking: ServiceVehicleBooking): void {
+  this.router.navigate(['service-vehicle-booking', booking.id, 'edit'], {
+    state: { booking }
+  });
+}
   isSelectedBooking(booking: ServiceVehicleBooking): boolean {
     return this.selectedBooking ? this.selectedBooking.id === booking.id : false;
   }
+
+ private readonly loadBookingsEffect = effect(() => {
+  const archived = this.isArchived();
+  this.serviceVehicleBookingService.getUserBookings(archived).pipe(
+    map((value) => ({ value, error: undefined })),
+    catchError((error) => of({ value: undefined, error })),
+    takeUntilDestroyed(this.destroyRef)
+  ).subscribe((result) => {
+    console.log('Réservations reçues (archived =', archived, '):', result);
+    this.serviceVehicleBookingResponseList.set(result);
+  });
+});
 
   confirm(event: Event, bookingId: number) {
     this.confirmationService.confirm({

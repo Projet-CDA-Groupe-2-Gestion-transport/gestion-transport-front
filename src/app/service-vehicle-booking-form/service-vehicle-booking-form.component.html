@@ -1,4 +1,4 @@
-<app-title [title]="'Nouvelle réservation'"></app-title>
+<app-title [title]="isEditMode ? 'Modification de ma réservation' : 'Nouvelle réservation'"></app-title>
 <form [formGroup]="form" (ngSubmit)="submitBooking()">
   <label for="vehicleId">Sélectionner un véhicule:</label>
 
@@ -16,5 +16,7 @@
   <p-datepicker formControlName="dateTimeEnd" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay"
     [showTime]="true" />
 
-  <button type="submit">Réserver</button>
+  <button type="submit" [disabled]="form.invalid || isSubmitted">Réserver</button>
+
 </form>
+

@@ -1,10 +1,9 @@
-import { ServiceVehicle } from "./serviceVehicle";
 
 export interface ServiceVehicleBooking {
-    id: number;
+    id?: number;
     userId: number;
-    dateTimeStart: String;
-    dateTimeEnd: String;
+    dateTimeStart: string;
+    dateTimeEnd: string;
     licensePlateNumber: string;
   }
 
@@ -12,8 +11,8 @@ export interface ServiceVehicleBooking {
     return{
       id:0,
       userId:0,
-      dateTimeStart: '',
-      dateTimeEnd: '',
+      dateTimeStart: new Date().toISOString(), 
+      dateTimeEnd: new Date().toISOString(),
       licensePlateNumber: '',
     }
 }

@@ -1,6 +1,12 @@
 <div class="d-flex flex-row justify-content-between">
   <app-title [title]="'Mes réservation de véhicule de service'"></app-title>
-  <p-button label="Faire une réservation de véhicule de service"></p-button>
+<button
+  pButton
+  type="button"
+  [routerLink]="['/service-vehicle-booking', 'new']"
+  class="p-button p-button-primary">
+  Faire une réservation de véhicule de service
+</button>
 </div>
 
 <p-tabs value="0">

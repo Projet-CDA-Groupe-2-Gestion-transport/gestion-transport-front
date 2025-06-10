@@ -3,20 +3,23 @@ import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TitleComponent } from '../shared/components/title/title.component';
 import { Button } from 'primeng/button';
+import { RouterModule } from '@angular/router';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { ServiceVehicleBookingListTableComponent } from './service-vehicle-booking-list-table/service-vehicle-booking-list-table.component';
 
 @Component({
   selector: 'app-service-vehicle-booking-list',
-  imports: [CommonModule, TableModule,
-      TitleComponent,
-      Button,
-      Tabs,
-      TabList,
-      Tab,
-      TabPanels,
-      TabPanel,
-    ServiceVehicleBookingListTableComponent],
+  imports: [ CommonModule,
+    RouterModule, 
+    TableModule,
+    TitleComponent,
+    Tabs,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel,
+    ServiceVehicleBookingListTableComponent
+  ],
   templateUrl: './service-vehicle-booking-list.component.html',
   styleUrl: './service-vehicle-booking-list.component.scss'
 })

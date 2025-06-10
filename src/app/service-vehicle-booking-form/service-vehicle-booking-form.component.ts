@@ -10,6 +10,7 @@ import { DatePickerModule } from 'primeng/datepicker';
 import {ServiceVehicleService} from '../core/services/service-vehicle.service';
 import { toLocalDateTime } from '../shared/utils/date-utils';
 import { ActivatedRoute } from '@angular/router'; 
+import { AuthenticationService } from '../core/services/authentication.service';
 
 @Component({
   selector: 'app-service-vehicle-booking-form',
@@ -25,6 +26,7 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
     private bookingService: ServiceVehicleBookingService,
     private vehicleService: ServiceVehicleService, // Ajoute l'injection du service des véhicules
     private formbuilder: FormBuilder,
+    private authService: AuthenticationService,
      private route: ActivatedRoute
   ) { }
 
@@ -55,8 +57,13 @@ if (this.isEditMode && id) {
 isSubmitted = false;
 
 submitBooking(): void {
+  const userId  = this.authService.getUserId();
   const formValue = this.form.getRawValue();
-
+  
+if (!userId ) {
+  alert("Aucun utilisateur connecté.");
+  return;
+}
   
   if (!formValue.dateTimeStart || !formValue.dateTimeEnd) {
     alert("La date de début et la date de fin doivent être mentionnées.");
@@ -76,7 +83,7 @@ submitBooking(): void {
   const dateEnd = toLocalDateTime(rawDateEnd);
 
   const booking: Omit<ServiceVehicleBooking, 'id'> = {
-    userId: 0,
+    userId: userId ,
     dateTimeStart: dateStart,
     dateTimeEnd: dateEnd,
     licensePlateNumber: formValue.licensePlateNumber

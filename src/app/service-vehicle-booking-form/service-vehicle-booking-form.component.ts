@@ -26,7 +26,6 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
     private bookingService: ServiceVehicleBookingService,
     private vehicleService: ServiceVehicleService, // Ajoute l'injection du service des véhicules
     private formbuilder: FormBuilder,
-    private authService: AuthenticationService,
      private route: ActivatedRoute
   ) { }
 
@@ -57,13 +56,10 @@ if (this.isEditMode && id) {
 isSubmitted = false;
 
 submitBooking(): void {
-  const userId  = this.authService.getUserId();
+
   const formValue = this.form.getRawValue();
-  
-if (!userId ) {
-  alert("Aucun utilisateur connecté.");
-  return;
-}
+   console.log('Données du formulaire :', formValue);
+
   
   if (!formValue.dateTimeStart || !formValue.dateTimeEnd) {
     alert("La date de début et la date de fin doivent être mentionnées.");
@@ -83,7 +79,7 @@ if (!userId ) {
   const dateEnd = toLocalDateTime(rawDateEnd);
 
   const booking: Omit<ServiceVehicleBooking, 'id'> = {
-    userId: userId ,
+    userId: 0 ,
     dateTimeStart: dateStart,
     dateTimeEnd: dateEnd,
     licensePlateNumber: formValue.licensePlateNumber

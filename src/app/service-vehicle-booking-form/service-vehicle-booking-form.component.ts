@@ -10,7 +10,6 @@ import { DatePickerModule } from 'primeng/datepicker';
 import {ServiceVehicleService} from '../core/services/service-vehicle.service';
 import { toLocalDateTime } from '../shared/utils/date-utils';
 import { ActivatedRoute } from '@angular/router'; 
-import { AuthenticationService } from '../core/services/authentication.service';
 
 @Component({
   selector: 'app-service-vehicle-booking-form',

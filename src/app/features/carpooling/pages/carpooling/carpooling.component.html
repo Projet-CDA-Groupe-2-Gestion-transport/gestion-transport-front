@@ -152,10 +152,13 @@
         emptyMessage="Aucun véhicule disponible"
         required
       >
-      </p-select>
+      
+     </p-select>
+      
       @if (canModify()) {
         <i class="pi pi-plus pointer" role="button" (click)="displayAddVehicule()"></i>
       }
+      
     </div>
     @if (carpoolingForm.submitted && carpooling.vehicle === null) {
       <div>

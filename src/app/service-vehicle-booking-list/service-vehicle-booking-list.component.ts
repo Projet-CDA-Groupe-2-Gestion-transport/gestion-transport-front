@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { TitleComponent } from '../shared/components/title/title.component';
-import { Button } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { ServiceVehicleBookingListTableComponent } from './service-vehicle-booking-list-table/service-vehicle-booking-list-table.component';

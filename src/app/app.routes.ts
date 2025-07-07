@@ -8,7 +8,7 @@ import { serviceVehicleBookingRoutes } from './features/service-vehicle/service-
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'auth',
     component: AuthLayoutComponent,
     children: [
       {
@@ -23,7 +23,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'home',
+        path: '',
         loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
       },
       ...carpoolingRoutes,

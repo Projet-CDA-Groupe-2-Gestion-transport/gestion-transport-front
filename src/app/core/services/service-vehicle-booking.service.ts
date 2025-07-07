@@ -32,8 +32,11 @@ export class ServiceVehicleBookingService {
   updateBooking(id: number, booking: ServiceVehicleBooking): Observable<ServiceVehicleBooking> {
     return this.http.put<ServiceVehicleBooking>(`${this.baseUrl}/${id}`, booking);
   }
-
+  
+  getUserBookings(isArchived: boolean): Observable<ServiceVehicleBooking[]> {
+  return this.http.get<ServiceVehicleBooking[]>(`${this.baseUrl}/user-booking?isArchived=${isArchived}`);
+}
   deleteBooking(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
-  }
+  return this.http.delete<void>(`${this.baseUrl}/${id}`);
+}
 }

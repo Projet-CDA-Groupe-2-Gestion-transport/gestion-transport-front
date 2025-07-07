@@ -1,32 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { ServiceVehicleBookingService } from '../core/services/service-vehicle-booking.service';
-import { ServiceVehicleBooking } from '../features/service-vehicle/model/serviceVehicleBooking';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TableModule } from 'primeng/table';
+import { TitleComponent } from '../shared/components/title/title.component';
+import { RouterModule } from '@angular/router';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { ServiceVehicleBookingListTableComponent } from './service-vehicle-booking-list-table/service-vehicle-booking-list-table.component';
 
 @Component({
   selector: 'app-service-vehicle-booking-list',
-  imports: [CommonModule],
+  imports: [ CommonModule,
+    RouterModule, 
+    TableModule,
+    TitleComponent,
+    Tabs,
+    TabList,
+    Tab,
+    TabPanels,
+    TabPanel,
+    ServiceVehicleBookingListTableComponent
+  ],
   templateUrl: './service-vehicle-booking-list.component.html',
   styleUrl: './service-vehicle-booking-list.component.scss'
 })
-export class ServiceVehicleBookingListComponent implements OnInit {
-  bookings: ServiceVehicleBooking[] = [];
+export class ServiceVehicleBookingListComponent  {
+   activeTabValue= 0;
 
-  constructor(private bookingService: ServiceVehicleBookingService) {}
-
-  ngOnInit(): void {
-    this.loadBookings();
-  }
-
-  loadBookings(): void {
-    this.bookingService.getAllBookings().subscribe((data) => {
-      this.bookings = data;
-    });
-  }
-
-  deleteBooking(id: number): void {
-    this.bookingService.deleteBooking(id).subscribe(() => {
-      this.loadBookings();
-    });
-  }
 }

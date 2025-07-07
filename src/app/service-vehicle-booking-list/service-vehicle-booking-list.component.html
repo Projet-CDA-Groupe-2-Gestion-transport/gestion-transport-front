@@ -1,23 +1,31 @@
-<h2>Liste des réservations</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Véhicule</th>
-      <th>Utilisateur</th>
-      <th>Début</th>
-      <th>Fin</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let booking of bookings">
-      <td>{{ booking.serviceVehicle.licensePlateNumber }}</td>
-      <td>{{ booking.userId }}</td>
-      <td>{{ booking.dateTimeStart | date:'short' }}</td>
-      <td>{{ booking.dateTimeEnd | date:'short' }}</td>
-      <td>
-        <button (click)="deleteBooking(booking.id)">Supprimer</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="d-flex flex-row justify-content-between">
+  <app-title [title]="'Mes réservation de véhicule de service'"></app-title>
+<button
+  pButton
+  type="button"
+  [routerLink]="['/service-vehicle-booking', 'new']"
+  class="p-button p-button-primary">
+  Faire une réservation de véhicule de service
+</button>
+</div>
+
+<p-tabs value="0">
+  <p-tablist>
+    <p-tab (click)="activeTabValue = 0" value="0">En cours</p-tab>
+    <p-tab (click)="activeTabValue = 1" value="1">Historique</p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      @if (activeTabValue === 0) {
+        <app-service-vehicle-booking-list-table></app-service-vehicle-booking-list-table>
+      }
+    </p-tabpanel>
+    <p-tabpanel value="1">
+      @if (activeTabValue === 1) {
+        <app-service-vehicle-booking-list-table [isArchived]="true"></app-service-vehicle-booking-list-table>
+      }
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
+
+

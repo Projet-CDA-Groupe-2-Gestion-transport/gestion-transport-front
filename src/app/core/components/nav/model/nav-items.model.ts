@@ -24,6 +24,8 @@ export const NavItems = [
         label: 'Rechercher',
       }, {
         label: 'Mes réservations',
+        routerLink: ['service-vehicle-booking', 'list']
+        
       },
       {
         separator: true

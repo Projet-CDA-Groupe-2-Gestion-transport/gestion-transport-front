@@ -1,25 +1,18 @@
-import { ServiceVehicle } from "./serviceVehicle";
 
 export interface ServiceVehicleBooking {
-    id: number;
+    id?: number;
     userId: number;
-    dateTimeStart: Date;
-    dateTimeEnd: Date;
-    serviceVehicle: ServiceVehicle;
+    dateTimeStart: string;
+    dateTimeEnd: string;
+    licensePlateNumber: string;
   }
 
   export function initServiceVehicleBooking(): ServiceVehicleBooking{
     return{
       id:0,
       userId:0,
-      dateTimeStart: new Date(),
-      dateTimeEnd: new Date(),
-      serviceVehicle: {
-        licensePlateNumber: '',
-        model: '',
-        brand: '',
-        category: '',
-        motorization: ''
-      } as unknown  as ServiceVehicle  // Utilisation du "type assertion" pour indiquer que c'est un ServiceVehicle
-  };
+      dateTimeStart: new Date().toISOString(), 
+      dateTimeEnd: new Date().toISOString(),
+      licensePlateNumber: '',
+    }
 }

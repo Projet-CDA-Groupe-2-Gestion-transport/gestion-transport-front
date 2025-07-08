@@ -19,7 +19,7 @@
     </p-datePicker>
   </div>
   <div class="h-auto d-flex align-items-end">
-    <p-button type="submit" label="Rechercher" icon="pi pi-search" [disabled]="!form.valid"></p-button>
+    <p-button type="submit" label="Rechercher" icon="pi pi-search" [disabled]="!form.valid" [pTooltip]="!form.valid ? 'Veuillez saisir au moins un critère de recherche' : ''"></p-button>
   </div>
 </form>
 

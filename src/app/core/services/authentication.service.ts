@@ -46,7 +46,15 @@ export class AuthenticationService {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    if (token) {
+      if (this.jwtHelper.isTokenExpired(token)) {
+        this.logout();
+        return null;
+      }
+      return token
+    }
+    return token;
   }
 
   getFirstName(): string | null {
@@ -59,7 +67,9 @@ export class AuthenticationService {
 
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
-    this.router.navigate(['/login']);
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('lastName');
+    this.router.navigate(['auth/login']);
   }
 
   isLogged(): boolean {

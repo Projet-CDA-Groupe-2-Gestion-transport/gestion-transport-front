@@ -15,7 +15,7 @@ import {CommonModule} from '@angular/common';
   `
 })
 export class FormErrorComponent {
-  control = input.required<AbstractControl | FormControl | null>();
+  control = input.required<AbstractControl | FormControl | null >();
   errorMessages = input<Record<string, string>>({
     'required': 'Ce champs est obligatoire',
     'minlength': 'La longueur minimale n\'est pas respectée',
@@ -26,7 +26,7 @@ export class FormErrorComponent {
 
   shouldShowErrors(): boolean {
     const controlValue = this.control();
-    return controlValue !== null && controlValue !== undefined ?
+    return controlValue !== null && controlValue !== undefined  ?
       (controlValue.invalid && (controlValue.dirty || controlValue.touched)) :
       false;
   }

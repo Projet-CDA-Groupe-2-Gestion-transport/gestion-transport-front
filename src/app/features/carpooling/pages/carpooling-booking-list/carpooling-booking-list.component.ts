@@ -6,6 +6,7 @@ import {Tab, TabList, TabPanel, TabPanels, Tabs} from 'primeng/tabs';
 import {
   CarpoolingBookingListTableComponent
 } from './carpooling-booking-list-table/carpooling-booking-list-table.component';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-carpooling-list',
@@ -18,7 +19,8 @@ import {
     Tab,
     TabPanels,
     TabPanel,
-    CarpoolingBookingListTableComponent
+    CarpoolingBookingListTableComponent,
+    RouterLink
   ],
   templateUrl: './carpooling-booking-list.component.html',
 })

@@ -4,7 +4,7 @@ import {Menubar} from 'primeng/menubar';
 import {MenuItem} from 'primeng/api';
 import {OverlayPanelModule} from 'primeng/overlaypanel';
 import {RouterLink} from '@angular/router';
-import {NavItems} from './model/nav-items.model';
+import {createNavItems} from './model/nav-items.model';
 import {createSubNavItems} from './model/sub-nav-items';
 
 @Component({
@@ -22,13 +22,16 @@ export class NavComponent implements OnInit {
 
   navItems: MenuItem[] | undefined;
   subNavItems: MenuItem[] | undefined;
+  isAdmin = false;
 
   constructor(
     private authService: AuthenticationService
   ) {
   }
+
   ngOnInit() {
-    this.navItems = NavItems;
+    this.isAdmin = this.authService.hasRole('ADMIN');
+    this.navItems = createNavItems(this.isAdmin);
     this.subNavItems = createSubNavItems(this.authService);
   }
 

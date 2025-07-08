@@ -9,7 +9,7 @@
     </tr>
   </ng-template>
   <ng-template #body let-booking>
-   <tr *ngIf="!isSelectedBooking(booking)">
+    <tr *ngIf="!isSelectedBooking(booking)">
       <td>{{ booking.licensePlateNumber | capitalize }}</td>
       <td>{{ booking.dateTimeStart | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>{{ booking.dateTimeEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
@@ -19,10 +19,10 @@
       <td>
         <p-button label="Modification" class="me-1" (click)="modify(booking)"></p-button>
       </td>
-       <td *ngIf="!isArchived()">
-        
-          <p-button severity="danger" (click)="confirm($event, booking.id)" label="Annuler"></p-button>
-        </td>
+      <td *ngIf="!isArchived()">
+
+        <p-button severity="danger" (click)="confirm($event, booking.id)" label="Annuler"></p-button>
+      </td>
     </tr>
   </ng-template>
 
@@ -41,7 +41,7 @@
   <div class="mt-4 p-4 border rounded shadow-sm">
     <div class="flex gap-4">
       <img [src]="selectedVehicle.photoUrl" alt="Photo du véhicule"
-        style="width: 200px; height: auto; object-fit: cover;" />
+           style="width: 200px; height: auto; object-fit: cover;"/>
       <div>
         <p><strong>Immatriculation :</strong> {{ selectedVehicle.licensePlateNumber }}</p>
         <p><strong>Marque :</strong> {{ selectedVehicle.brand }}</p>
@@ -53,4 +53,5 @@
       </div>
     </div>
   </div>
-<p-button *ngIf="selectedBooking" label="Retour à la liste" (click)="resetSelection()"></p-button>
+  <p-button *ngIf="selectedBooking" label="Retour à la liste" (click)="resetSelection()"></p-button>
+</div>

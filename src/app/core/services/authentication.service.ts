@@ -26,6 +26,8 @@ export class AuthenticationService {
       tap((response) => {
         if (response.jwt) {
           this.saveToken(response.jwt);
+          this.saveFirstName(response.firstName);
+          this.saveLastName(response.lastName);
         }
       })
     );
@@ -35,8 +37,24 @@ export class AuthenticationService {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
 
+  saveFirstName(firstName: string): void {
+    localStorage.setItem('firstName', firstName);
+  }
+
+  saveLastName(lastName: string): void {
+    localStorage.setItem('lastName', lastName);
+  }
+
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  getFirstName(): string | null {
+    return localStorage.getItem('firstName');
+  }
+
+  getLastName(): string | null {
+    return localStorage.getItem('lastName');
   }
 
   logout(): void {

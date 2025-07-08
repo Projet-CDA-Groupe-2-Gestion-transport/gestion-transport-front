@@ -16,6 +16,7 @@ import {ConfirmationService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {ModalConfirmBookingComponent} from '../../components/modal-confirm-booking/modal-confirm-booking.component';
 import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
+import {Tooltip} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-carpooling-search',
@@ -30,6 +31,7 @@ import {DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
     TableModule,
     NgClass,
     ConfirmDialog,
+    Tooltip,
   ],
   templateUrl: './carpooling-search.component.html',
   styleUrl: './carpooling-search.component.scss'
@@ -43,22 +45,23 @@ export class CarpoolingSearchComponent implements OnInit, OnDestroy {
   private readonly destroyRef = inject(DestroyRef);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly dialogService = inject(DialogService);
+  protected readonly Date = Date;
   isSubmitted = signal<boolean>(false);
 
-    protected readonly carpoolingResponseList = signal<{
-        value: Carpooling[],
-        error: string | undefined
-    } | undefined>(undefined);
+  protected readonly carpoolingResponseList = signal<{
+    value: Carpooling[],
+    error: string | undefined
+  } | undefined>(undefined);
 
-    readonly loading = signal<boolean>(false);
+  readonly loading = signal<boolean>(false);
 
-    readonly carpoolingList = linkedSignal<Carpooling[] | undefined>(
-        computed(() => this.carpoolingResponseList()?.value)
-    );
+  readonly carpoolingList = linkedSignal<Carpooling[] | undefined>(
+    computed(() => this.carpoolingResponseList()?.value)
+  );
 
-    ngOnInit() {
-        this.initForm();
-    }
+  ngOnInit() {
+    this.initForm();
+  }
 
   ngOnDestroy() {
     if (this.modalRef) {
@@ -74,32 +77,32 @@ export class CarpoolingSearchComponent implements OnInit, OnDestroy {
     }, {validators: [minNumberFieldsRequired(['departureAddress', 'arrivalAddress', 'dateTimeStart'], 1)]});
   }
 
-    search() {
-        if (this.form.valid) {
-            this.loading.set(true);
-            this.isSubmitted.set(true);
-            const params = this.form.getRawValue();
-            if (params.dateTimeStart !== null) {
-                params.dateTimeStart = params.dateTimeStart.toISOString().split('T')[0];
-            } // A modifier avec le composant DatePicker encapsulé
-            this.carpoolingService.search(params).pipe(
-                map((value) => ({value, error: undefined})),
-                takeUntilDestroyed(this.destroyRef)
-            ).subscribe(
-                {
-                    next: (result) => {
-                        this.carpoolingResponseList.set(result);
-                        this.loading.set(false);
-                    },
-                    error: err => {
-                        this.carpoolingResponseList.set({value: [], error: err.message});
-                        this.loading.set(false);
-                    }
-                }
-            )
-            ;
+  search() {
+    if (this.form.valid) {
+      this.loading.set(true);
+      this.isSubmitted.set(true);
+      const params = this.form.getRawValue();
+      if (params.dateTimeStart !== null) {
+        params.dateTimeStart = params.dateTimeStart.toISOString().split('T')[0];
+      } // A modifier avec le composant DatePicker encapsulé
+      this.carpoolingService.search(params).pipe(
+        map((value) => ({value, error: undefined})),
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe(
+        {
+          next: (result) => {
+            this.carpoolingResponseList.set(result);
+            this.loading.set(false);
+          },
+          error: err => {
+            this.carpoolingResponseList.set({value: [], error: err.message});
+            this.loading.set(false);
+          }
         }
+      )
+      ;
     }
+  }
 
   openModalsaveBooking(event: Event, carpooling: Carpooling) {
     console.log(carpooling)
@@ -149,7 +152,4 @@ export class CarpoolingSearchComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-
-  protected readonly Date = Date;
 }

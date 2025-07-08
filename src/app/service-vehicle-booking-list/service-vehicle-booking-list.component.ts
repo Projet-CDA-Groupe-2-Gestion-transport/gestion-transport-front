@@ -5,11 +5,12 @@ import { TitleComponent } from '../shared/components/title/title.component';
 import { RouterModule } from '@angular/router';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { ServiceVehicleBookingListTableComponent } from './service-vehicle-booking-list-table/service-vehicle-booking-list-table.component';
+import {ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-service-vehicle-booking-list',
-  imports: [ CommonModule,
-    RouterModule, 
+  imports: [CommonModule,
+    RouterModule,
     TableModule,
     TitleComponent,
     Tabs,
@@ -17,7 +18,7 @@ import { ServiceVehicleBookingListTableComponent } from './service-vehicle-booki
     Tab,
     TabPanels,
     TabPanel,
-    ServiceVehicleBookingListTableComponent
+    ServiceVehicleBookingListTableComponent, ButtonDirective
   ],
   templateUrl: './service-vehicle-booking-list.component.html',
   styleUrl: './service-vehicle-booking-list.component.scss'

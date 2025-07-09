@@ -9,11 +9,12 @@ import { Select } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import {ServiceVehicleService} from '../core/services/service-vehicle.service';
 import { toLocalDateTime } from '../shared/utils/date-utils';
-import { ActivatedRoute } from '@angular/router'; 
+import { ActivatedRoute } from '@angular/router';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-service-vehicle-booking-form',
-  imports: [CommonModule, ReactiveFormsModule, TitleComponent, Select, DatePickerModule],
+  imports: [CommonModule, ReactiveFormsModule, TitleComponent, Select, DatePickerModule, Button],
   templateUrl: './service-vehicle-booking-form.component.html',
   styleUrl: './service-vehicle-booking-form.component.scss'
 })
@@ -51,7 +52,7 @@ if (this.isEditMode && id) {
   }
 }
 
- 
+
 isSubmitted = false;
 
 submitBooking(): void {
@@ -59,7 +60,7 @@ submitBooking(): void {
   const formValue = this.form.getRawValue();
    console.log('Données du formulaire :', formValue);
 
-  
+
   if (!formValue.dateTimeStart || !formValue.dateTimeEnd) {
     alert("La date de début et la date de fin doivent être mentionnées.");
     return;
@@ -96,7 +97,7 @@ submitBooking(): void {
         const existingStart = new Date(existing.dateTimeStart);
         const existingEnd = new Date(existing.dateTimeEnd);
 
-    
+
         return rawDateStart < existingEnd && rawDateEnd > existingStart;
       });
 

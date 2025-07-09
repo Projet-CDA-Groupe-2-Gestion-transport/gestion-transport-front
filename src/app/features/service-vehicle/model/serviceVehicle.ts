@@ -14,6 +14,7 @@ export interface ServiceVehicle {
   status: ServiceVehiculeStatusEnum | null;
   category: VehicleCategoryEnum | null;
   motorization: MotorizationEnum | null;
+  hasBookings: boolean;
 }
 
 export function initServiceVehicle(): ServiceVehicle {
@@ -28,5 +29,6 @@ export function initServiceVehicle(): ServiceVehicle {
     status: ServiceVehiculeStatusEnum.IN_SERVICE,
     category: null,
     motorization: null,
+    hasBookings: false,
   };
 }

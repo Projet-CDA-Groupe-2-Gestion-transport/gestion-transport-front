@@ -9,6 +9,8 @@ import {UpperCasePipe} from '@angular/common';
 import {CapitalizePipe} from '../../../../shared/pipes/string/capitalize.pipe';
 import {MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
+import {CategoryPipe} from '../../../../shared/pipes/category.pipe';
+import {MotorizationPipe} from '../../../../shared/pipes/motorization.pipe';
 
 @Component({
   selector: 'app-service-vehicle-list',
@@ -16,7 +18,9 @@ import {Router} from '@angular/router';
     TableModule,
     Button,
     UpperCasePipe,
-    CapitalizePipe
+    CapitalizePipe,
+    CategoryPipe,
+    MotorizationPipe
   ],
   templateUrl: './service-vehicle-list.component.html',
   styleUrl: './service-vehicle-list.component.scss',

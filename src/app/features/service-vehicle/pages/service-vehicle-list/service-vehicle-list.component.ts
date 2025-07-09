@@ -23,7 +23,8 @@ import {MotorizationPipe} from '../../../../shared/pipes/motorization.pipe';
     CapitalizePipe,
     TitleComponent,
     ConfirmDialog,
-    CategoryPipe
+    CategoryPipe,
+    MotorizationPipe
   ],
   providers: [ConfirmationService],
   templateUrl: './service-vehicle-list.component.html',

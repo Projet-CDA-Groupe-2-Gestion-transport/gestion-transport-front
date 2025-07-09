@@ -32,21 +32,27 @@
 
 <p-confirmDialog></p-confirmDialog>
 
-<div *ngIf="selectedBooking && selectedVehicle" class="mt-4 p-4 border rounded shadow-sm">
-  <div class="mt-4 p-4 border rounded shadow-sm">
-    <div class="flex gap-4">
-      <img [src]="selectedVehicle.photoUrl" alt="Photo du véhicule"
-           style="width: 200px; height: auto; object-fit: cover;"/>
-      <div>
-        <p><strong>Immatriculation :</strong> {{ selectedVehicle.licensePlateNumber }}</p>
-        <p><strong>Marque :</strong> {{ selectedVehicle.brand }}</p>
-        <p><strong>Modèle :</strong> {{ selectedVehicle.model }}</p>
-        <p><strong>Nombre de places :</strong> {{ selectedVehicle.nbSeats }}</p>
-        <p *ngIf="selectedVehicle.co2Km !== undefined">
-          <strong>CO₂/km :</strong> {{ selectedVehicle.co2Km }}
-        </p>
+@if (selectedBooking && selectedVehicle) {
+  <div class="d-flex flex-column gap-4">
+    <div class="mt-4 p-4 border rounded shadow-sm">
+      <div class="mt-4 p-4 border rounded shadow-sm">
+        <div class="flex gap-4">
+          @if (selectedVehicle.photoUrl) {
+            <img [src]="selectedVehicle.photoUrl" alt="Photo du véhicule"
+                 style="width: 200px; height: auto; object-fit: cover;"/>
+          }
+          <p><strong>Immatriculation :</strong> {{ selectedVehicle.licensePlateNumber }}</p>
+          <p><strong>Marque :</strong> {{ selectedVehicle.brand }}</p>
+          <p><strong>Modèle :</strong> {{ selectedVehicle.model }}</p>
+          <p><strong>Nombre de places :</strong> {{ selectedVehicle.nbSeats }}</p>
+          @if (selectedVehicle.co2Km) {
+            <p>
+              <strong>CO₂/km :</strong> {{ selectedVehicle.co2Km }}
+            </p>
+          }
+        </div>
       </div>
     </div>
+    <p-button label="Retour à la liste" (click)="resetSelection()"></p-button>
   </div>
-  <p-button *ngIf="selectedBooking" label="Retour à la liste" (click)="resetSelection()"></p-button>
-</div>
+}

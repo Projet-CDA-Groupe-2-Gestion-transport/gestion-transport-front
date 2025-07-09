@@ -1,26 +1,26 @@
-import { Component, computed, DestroyRef, effect, inject, input, linkedSignal, signal } from '@angular/core';
-import { ServiceVehicleBookingService } from '../../core/services/service-vehicle-booking.service';
-import { TableModule } from 'primeng/table';
-import { Button } from 'primeng/button';
-import { CommonModule, DatePipe } from '@angular/common';
-import { CapitalizePipe } from '../../shared/pipes/string/capitalize.pipe';
-import { ConfirmationService } from 'primeng/api';
-import { ServiceVehicleBooking } from '../../features/service-vehicle/model/serviceVehicleBooking';
-import { catchError, map, of } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ServiceVehicleService } from '../../core/services/service-vehicle.service';
-import { ServiceVehicle } from '../../features/service-vehicle/model/serviceVehicle';
-import { Router } from '@angular/router'; 
+import {Component, computed, DestroyRef, effect, inject, input, linkedSignal, signal} from '@angular/core';
+import {ServiceVehicleBookingService} from '../../core/services/service-vehicle-booking.service';
+import {TableModule} from 'primeng/table';
+import {Button} from 'primeng/button';
+import {CommonModule, DatePipe} from '@angular/common';
+import {CapitalizePipe} from '../../shared/pipes/string/capitalize.pipe';
+import {ConfirmationService} from 'primeng/api';
+import {ServiceVehicleBooking} from '../../features/service-vehicle/model/serviceVehicleBooking';
+import {catchError, map, of} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {ConfirmDialog} from 'primeng/confirmdialog';
+import {ServiceVehicleService} from '../../core/services/service-vehicle.service';
+import {ServiceVehicle} from '../../features/service-vehicle/model/serviceVehicle';
+import {Router} from '@angular/router';
 
 
 @Component({
   selector: 'app-service-vehicle-booking-list-table',
   imports: [TableModule,
     Button,
-    CapitalizePipe,DatePipe,
+    CapitalizePipe, DatePipe,
     ConfirmDialog,
-  CommonModule],
+    CommonModule],
   providers: [ConfirmationService],
   templateUrl: './service-vehicle-booking-list-table.component.html',
 })
@@ -47,7 +47,7 @@ export class ServiceVehicleBookingListTableComponent {
   selectedBooking: ServiceVehicleBooking | null = null;
   selectedVehicle: ServiceVehicle | null = null;
 
-viewDetails(booking: ServiceVehicleBooking) {
+  viewDetails(booking: ServiceVehicleBooking) {
     this.selectedBooking = booking;
     this.selectedVehicle = null; // Reset while loading
     this.serviceVehicleService.getServiceVehicleById(booking.licensePlateNumber).pipe(
@@ -60,26 +60,31 @@ viewDetails(booking: ServiceVehicleBooking) {
       this.selectedVehicle = vehicle;
     });
   }
-modify (booking: ServiceVehicleBooking): void {
-  this.router.navigate(['service-vehicle-booking', booking.id, 'edit'], {
-    state: { booking }
-  });
-}
+
+  modify(booking: ServiceVehicleBooking): void {
+    this.router.navigate(['service-vehicle-booking', booking.id, 'edit'], {
+      state: {booking}
+    });
+  }
+
   isSelectedBooking(booking: ServiceVehicleBooking): boolean {
     return this.selectedBooking ? this.selectedBooking.id === booking.id : false;
   }
 
- private readonly loadBookingsEffect = effect(() => {
-  const archived = this.isArchived();
-  this.serviceVehicleBookingService.getUserBookings(archived).pipe(
-    map((value) => ({ value, error: undefined })),
-    catchError((error) => of({ value: undefined, error })),
-    takeUntilDestroyed(this.destroyRef)
-  ).subscribe((result) => {
-    console.log('Réservations reçues (archived =', archived, '):', result);
-    this.serviceVehicleBookingResponseList.set(result);
-  });
-});
+  constructor() {
+    effect(() => {
+      const archived = this.isArchived();
+      this.serviceVehicleBookingService.getUserBookings(archived).pipe(
+        map((value) => ({value, error: undefined})),
+        catchError((error) => of({value: undefined, error})),
+        takeUntilDestroyed(this.destroyRef)
+      ).subscribe((result) => {
+        console.log('Réservations reçues (archived =', archived, '):', result);
+        this.serviceVehicleBookingResponseList.set(result);
+      });
+
+    });
+  }
 
   confirm(event: Event, bookingId: number) {
     this.confirmationService.confirm({
@@ -103,8 +108,8 @@ modify (booking: ServiceVehicleBooking): void {
           next: () => {
             console.log(`Réservation ${bookingId} supprimée.`);
             this.serviceVehicleBookingService.getUserBookings(this.isArchived()).pipe(
-              map((value) => ({ value, error: undefined })),
-              catchError((error) => of({ value: undefined, error })),
+              map((value) => ({value, error: undefined})),
+              catchError((error) => of({value: undefined, error})),
               takeUntilDestroyed(this.destroyRef)
             ).subscribe((result) => this.serviceVehicleBookingResponseList.set(result));
           },
@@ -113,9 +118,9 @@ modify (booking: ServiceVehicleBooking): void {
       }
     });
   }
-     
 
- resetSelection() {
+
+  resetSelection() {
     this.selectedBooking = null;
     this.selectedVehicle = null;
   }

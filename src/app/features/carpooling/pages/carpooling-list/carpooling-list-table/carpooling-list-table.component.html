@@ -23,8 +23,10 @@
       </td>
       @if (!isArchived()) {
         <td>
-          <p-button severity="danger" (click)="cancel(carpooling.id)" label="Annuler"></p-button>
-          <p-button (click)="edit(carpooling.id)" label="Modifier"></p-button>
+          <div class="d-flex flex-row gap-2">
+            <p-button severity="danger" (click)="cancel(carpooling.id)" label="Annuler"></p-button>
+            <p-button (click)="edit(carpooling.id)" label="Modifier"></p-button>
+          </div>
         </td>
       }
     </tr>

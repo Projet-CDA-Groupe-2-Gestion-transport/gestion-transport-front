@@ -1,5 +1,5 @@
 <div class="d-flex flex-row justify-content-between align-items-center">
-  <h2 class="text-decoration-underline">Véhicules de service</h2>
+  <app-title title="Véhicules de service"></app-title>
   <p-button (click)="addVehicle()" label="Ajouter un véhicule"></p-button>
 </div>
 <p-table [loading]="loading()" [value]="serviceVehicleList() || []">
@@ -18,10 +18,12 @@
     </tr>
     <tr>
       <th>
-        <p-columnFilter type="text" field="licensePlateNumber" placeholder="AA123BB" ariaLabel="Filter par Immatriculation" [showMenu]="false"></p-columnFilter>
+        <p-columnFilter type="text" field="licensePlateNumber" placeholder="AA123BB"
+                        ariaLabel="Filter par Immatriculation" [showMenu]="false"></p-columnFilter>
       </th>
       <th>
-        <p-columnFilter type="text" field="brand" placeholder="Marque" ariaLabel="Filter par Marque du véhicule" [showMenu]="false"></p-columnFilter>
+        <p-columnFilter type="text" field="brand" placeholder="Marque" ariaLabel="Filter par Marque du véhicule"
+                        [showMenu]="false"></p-columnFilter>
       </th>
       <th></th>
       <th></th>
@@ -42,11 +44,19 @@
       <td>{{ serviceVehicle.motorization | capitalize }}</td>
       <td>{{ serviceVehicle.co2Km }}</td>
       <td>{{ serviceVehicle.nbSeats }}</td>
-      <td><p-button (click)="openPicture(serviceVehicle.photoUrl)">Voir</p-button></td>
-      <td><p-button label="Modifier" (click)="editServiceVehicle(serviceVehicle.licensePlateNumber)"></p-button></td>
-      <td><p-button label="Supprimer" (click)="deleteServiceVehicle(serviceVehicle.licensePlateNumber)"></p-button></td>
+      <td>
+        <p-button [disabled]="!serviceVehicle.photoUrl" (click)="openPicture(serviceVehicle.photoUrl)">Voir</p-button>
+      </td>
+      <td>
+        <p-button label="Modifier" (click)="editServiceVehicle(serviceVehicle.licensePlateNumber)"></p-button>
+      </td>
+      <td>
+        <p-button [disabled]="serviceVehicle.hasBookings" label="Supprimer"
+                  (click)="confirmDelete($event, serviceVehicle.licensePlateNumber)"></p-button>
+      </td>
     </tr>
   </ng-template>
 
 
 </p-table>
+<p-confirmDialog />

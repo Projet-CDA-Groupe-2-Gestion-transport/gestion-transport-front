@@ -1,0 +1,22 @@
+<p-autoComplete
+  [ngModel]="selectedAddress"
+  [suggestions]="suggestions"
+  (completeMethod)="search($event)"
+  (onSelect)="onSelect($event)"
+  optionLabel="display_name"
+  [minLength]="3"
+  placeholder="Rechercher une adresse..."
+  [showClear]="true"
+  [dropdown]="false"
+  styleClass="w-full w-100 address-autocomplete"
+  [style]="{'width': '100%'}">
+
+  <ng-template let-address pTemplate="item">
+    <div class="flex align-items-center w-100">
+      <div>
+        <div class="font-medium">{{ getFormattedAddress(address) }}</div>
+      </div>
+    </div>
+  </ng-template>
+
+</p-autoComplete>

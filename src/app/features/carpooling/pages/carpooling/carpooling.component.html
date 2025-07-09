@@ -5,20 +5,16 @@
 @if (carpooling(); as carpooling) {
   <app-title [title]="title()"></app-title>
   <ng-form #carpoolingForm="ngForm" class="d-flex flex-column gap-2">
-    <div class="d-flex gap-2 flex-column col-12 col-md-3">
+    <div class="d-flex gap-2 flex-column col-12 col-md-6">
       <div class="label">
         <label for="departureAddress">Adresse de départ</label>
       </div>
-      <input
-        pInputText
-        #departureAddress="ngModel"
-        id="departureAddress"
-        [(ngModel)]="carpooling.departureAddress"
+      <app-address-input
         name="departureAddress"
-        required
-        minlength="10"
-        [disabled]="!canModify()"
-      />
+        [(ngModel)]="carpooling.departureAddress"
+        #departureAddress="ngModel"
+        required>
+      </app-address-input>
     </div>
     @if ((departureAddress.touched || carpoolingForm.submitted) && departureAddress.invalid) {
       <div>
@@ -26,7 +22,25 @@
       </div>
     }
 
-    <div class="d-flex gap-2 flex-column col-12 col-md-3">
+
+    <div class="d-flex gap-2 flex-column col-12 col-md-6">
+      <div class="label">
+        <label for="arrivalAddress">Adresse d'arrivée</label>
+      </div>
+      <app-address-input
+        name="arrivalAddress"
+        [(ngModel)]="carpooling.arrivalAddress"
+        #arrivalAddress="ngModel"
+        required>
+      </app-address-input>
+    </div>
+    @if ((arrivalAddress.touched || carpoolingForm.submitted) && arrivalAddress.invalid) {
+      <div>
+        <span class="text-red-500">Veuillez saisir une adresse d'arrivée valide</span>
+      </div>
+    }
+
+    <div class="d-flex gap-2 flex-column col-12 col-md-6">
       <div class="label">
         <label for="dateTimeStart">Date de départ</label>
       </div>
@@ -38,7 +52,8 @@
         [(ngModel)]="carpooling.dateTimeStart"
         [disabled]="!canModify()"
         [showTime]="true"
-        showIcon >
+        dateFormat="dd/mm/yy"
+        showIcon>
       </p-datePicker>
     </div>
     @if ((dateTimeStart.touched || carpoolingForm.submitted) && dateTimeStart.invalid) {
@@ -47,28 +62,7 @@
       </div>
     }
 
-    <div class="d-flex gap-2 flex-column col-12 col-md-3">
-      <div class="label">
-        <label for="arrivalAddress">Adresse d'arrivée</label>
-      </div>
-      <input
-        pInputText
-        #arrivalAddress="ngModel"
-        id="arrivalAddress"
-        [(ngModel)]="carpooling.arrivalAddress"
-        name="arrivalAddress"
-        required
-        minlength="10"
-        [disabled]="!canModify()"
-      />
-    </div>
-    @if ((arrivalAddress.touched || carpoolingForm.submitted) && arrivalAddress.invalid) {
-      <div>
-        <span class="text-red-500">Veuillez saisir une adresse d'arrivée valide</span>
-      </div>
-    }
-
-    <div class="d-flex gap-2 flex-column col-12 col-md-3">
+    <div class="d-flex gap-2 flex-column col-12 col-md-6">
       <div class="label">
         <label for="duration">Durée du trajet</label>
       </div>
@@ -89,7 +83,7 @@
       </div>
     }
 
-    <div class="d-flex gap-2 flex-column col-12 col-md-3">
+    <div class="d-flex gap-2 flex-column col-12 col-md-6">
       <div class="label">
         <label for="duration">Distance</label>
       </div>
@@ -111,7 +105,7 @@
       </div>
     }
 
-    <div class="d-flex gap-2 flex-column col-12 col-md-3">
+    <div class="d-flex gap-2 flex-column col-12 col-md-6">
       <div class="label">
         <label for="nbSeats">Place disponibles</label>
       </div>
@@ -132,7 +126,7 @@
       </div>
     }
 
-    <div class="d-flex gap-2 flex-column col-12 col-md-3">
+    <div class="d-flex gap-2 flex-column col-12 col-md-6">
       <div class="label">
         <label for="vehicle">Véhicule</label>
       </div>
@@ -168,12 +162,12 @@
     }
 
     @if (canModify()) {
-      <div class="d-flex gap-2 col-12 col-md-3 justify-content-between">
+      <div class="d-flex gap-2 col-12 col-md-6 justify-content-between">
         <p-button label="Enregistrer"
                   [disabled]="!canModify() || carpoolingForm.invalid || carpooling.vehicle === null || departureAddress.invalid || dateTimeStart.invalid || arrivalAddress.invalid"
                   (click)="saveCarpooling()"></p-button>
 
-          <p-button label="Annuler" outlined [routerLink]="['/', 'carpooling']"></p-button>
+        <p-button label="Annuler" outlined [routerLink]="['/', 'carpooling']"></p-button>
       </div>
     }
   </ng-form>

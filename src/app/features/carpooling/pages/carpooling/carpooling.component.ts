@@ -5,7 +5,6 @@ import {catchError, map, of, switchMap} from 'rxjs';
 import {Carpooling, initCarpooling} from '../../models/carpooling';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {InputText} from 'primeng/inputtext';
 import {DatePicker} from 'primeng/datepicker';
 import {InputNumber} from 'primeng/inputnumber';
 import {Select} from 'primeng/select';
@@ -17,13 +16,13 @@ import {Vehicle} from '../../../vehicle/models/vehicle';
 import {VehicleComponent} from '../../../vehicle/pages/vehicle/vehicle.component';
 import {CarpoolingService} from '../../../../core/services/carpooling.service';
 import {TitleComponent} from '../../../../shared/components/title/title.component';
+import {AddressInputComponent} from '../../../../core/components/address-input/address-input.component';
 
 @Component({
   selector: 'app-carpooling',
   imports: [
     ProgressSpinner,
     ReactiveFormsModule,
-    InputText,
     FormsModule,
     DatePicker,
     InputNumber,
@@ -31,7 +30,8 @@ import {TitleComponent} from '../../../../shared/components/title/title.componen
     Button,
     VehicleComponent,
     TitleComponent,
-    RouterLink
+    RouterLink,
+    AddressInputComponent
   ],
   templateUrl: './carpooling.component.html',
   styleUrl: './carpooling.component.scss'

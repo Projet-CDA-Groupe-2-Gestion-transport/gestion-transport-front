@@ -1,10 +1,10 @@
-import {Component, computed, DestroyRef, inject, input, linkedSignal} from '@angular/core';
+import {Component, computed, DestroyRef, effect, inject, input, linkedSignal, signal} from '@angular/core';
 import {Button} from "primeng/button";
 import {CapitalizePipe} from "../../../../../shared/pipes/string/capitalize.pipe";
 import {DatePipe} from "@angular/common";
 import {TableModule} from "primeng/table";
 import {CarpoolingService} from '../../../../../core/services/carpooling.service';
-import {takeUntilDestroyed, toSignal} from '@angular/core/rxjs-interop';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {catchError, map, of} from 'rxjs';
 import {Carpooling} from '../../../models/carpooling';
 import {Router} from '@angular/router';
@@ -29,20 +29,27 @@ export class CarpoolingListTableComponent {
   readonly #destroyRef = inject(DestroyRef);
   readonly #messageSvc = inject(MessageService);
 
-  private readonly carpoolingResponseList = toSignal(this.#carpoolingSvc.getAllOrganisatorCarpooling(this.isArchived())
-    .pipe(map((value) => ({
-        value,
-        error: undefined
-      })),
-      catchError((error) => of({value: undefined, error}))
-    )
-  );
+  protected readonly carpoolingResponseList = signal<{
+    value: Carpooling[] | undefined,
+    error: string | undefined
+  } | undefined>(undefined);
 
   readonly loading = computed(() => !this.carpoolingResponseList());
 
   readonly carpoolingList = linkedSignal<Carpooling[] | undefined>(
     computed(() => this.carpoolingResponseList()?.value)
   );
+
+  constructor() {
+    effect(() => {
+      const archived = this.isArchived();
+      this.#carpoolingSvc.getAllOrganisatorCarpooling(archived).pipe(
+        map((value) => ({value, error: undefined})),
+        catchError((error) => of({value: undefined, error})),
+        takeUntilDestroyed(this.#destroyRef)
+      ).subscribe((result) => this.carpoolingResponseList.set(result));
+    });
+  }
 
   cancel(idCarpooling: number): void {
     this.#carpoolingSvc.deleteCarpooling(idCarpooling).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((): void => {

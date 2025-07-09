@@ -11,7 +11,8 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {TitleComponent} from '../../../../shared/components/title/title.component';
 import {ConfirmDialog} from 'primeng/confirmdialog';
-
+import {CategoryPipe} from '../../../../shared/pipes/category.pipe';
+import {MotorizationPipe} from '../../../../shared/pipes/motorization.pipe';
 
 @Component({
   selector: 'app-service-vehicle-list',
@@ -21,7 +22,8 @@ import {ConfirmDialog} from 'primeng/confirmdialog';
     UpperCasePipe,
     CapitalizePipe,
     TitleComponent,
-    ConfirmDialog
+    ConfirmDialog,
+    CategoryPipe
   ],
   providers: [ConfirmationService],
   templateUrl: './service-vehicle-list.component.html',

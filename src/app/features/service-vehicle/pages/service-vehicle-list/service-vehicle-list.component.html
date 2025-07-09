@@ -40,8 +40,8 @@
       <td>{{ serviceVehicle.licensePlateNumber | uppercase }}</td>
       <td>{{ serviceVehicle.brand | capitalize }}</td>
       <td>{{ serviceVehicle.model | uppercase }}</td>
-      <td>{{ serviceVehicle.category | capitalize }}</td>
-      <td>{{ serviceVehicle.motorization | capitalize }}</td>
+      <td>{{ serviceVehicle.category | category }}</td>
+      <td>{{ serviceVehicle.motorization | motorization }}</td>
       <td>{{ serviceVehicle.co2Km }}</td>
       <td>{{ serviceVehicle.nbSeats }}</td>
       <td>

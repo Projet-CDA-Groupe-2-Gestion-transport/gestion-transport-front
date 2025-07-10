@@ -113,11 +113,6 @@ export class CarpoolingSearchComponent implements OnInit, OnDestroy {
         carpooling
       }
     })
-
-    this.modalRef.onClose.subscribe((result) => {
-      if (result) {
-      }
-    });
   }
 
   cancelBooking(event: Event, carpooling: Carpooling) {

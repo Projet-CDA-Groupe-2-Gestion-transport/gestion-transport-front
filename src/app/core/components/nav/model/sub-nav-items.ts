@@ -3,7 +3,7 @@ import {AuthenticationService} from '../../../services/authentication.service';
 export function createSubNavItems(authService: AuthenticationService) {
   return [
     {
-      label: 'Nom Prénom',
+      label: authService.getFirstName() + ' ' + authService.getLastName(),
       items: [
         {
           label: 'Se déconnecter',

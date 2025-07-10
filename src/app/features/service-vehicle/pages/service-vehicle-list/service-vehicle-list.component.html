@@ -1,36 +1,69 @@
 <div class="d-flex flex-row justify-content-between align-items-center">
-  <h2 class="text-decoration-underline">Véhicules de service</h2>
+  <app-title title="Véhicules de service"></app-title>
   <p-button (click)="addVehicle()" label="Ajouter un véhicule"></p-button>
 </div>
-<p-table [loading]="loading()" [value]="serviceVehicleList() || []">
-  <ng-template #header>
-    <tr>
-      <th>Immatriculation</th>
-      <th>Marque</th>
-      <th>Modèle</th>
-      <th>Catégorie</th>
-      <th>Motorisation</th>
-      <th>CO2/km</th>
-      <th>Nombres de place</th>
-      <th>Photo</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </ng-template>
-  <ng-template #body let-serviceVehicle>
-    <tr>
-      <td>{{ serviceVehicle.licensePlateNumber | uppercase }}</td>
-      <td>{{ serviceVehicle.brand | capitalize }}</td>
-      <td>{{ serviceVehicle.model | uppercase }}</td>
-      <td>{{ serviceVehicle.category | capitalize }}</td>
-      <td>{{ serviceVehicle.motorization | capitalize }}</td>
-      <td>{{ serviceVehicle.co2Km }}</td>
-      <td>{{ serviceVehicle.nbSeats }}</td>
-      <td><p-button (click)="openPicture(serviceVehicle.photoUrl)">Voir</p-button></td>
-      <td><p-button label="Modifier" (click)="editServiceVehicle(serviceVehicle.licensePlateNumber)"></p-button></td>
-      <td><p-button label="Supprimer" (click)="deleteServiceVehicle(serviceVehicle.licensePlateNumber)"></p-button></td>
-    </tr>
-  </ng-template>
+<div class="table-container">
+  <p-table [loading]="loading()" [value]="serviceVehicleList() || []" [autoLayout]="true"
+           [responsive]="true">
+    <ng-template #header>
+      <tr>
+        <th>Immatriculation</th>
+        <th>Marque</th>
+        <th>Modèle</th>
+        <th>Catégorie</th>
+        <th>Motorisation</th>
+        <th>CO2/km</th>
+        <th>Nombres de place</th>
+        <th>Photo</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <th>
+          <p-columnFilter type="text" field="licensePlateNumber" placeholder="AA123BB"
+                          ariaLabel="Filter par Immatriculation" [showMenu]="false">
+
+          </p-columnFilter>
+        </th>
+        <th>
+          <p-columnFilter type="text" field="brand" placeholder="Marque" ariaLabel="Filter par Marque du véhicule"
+                          [showMenu]="false">
+
+          </p-columnFilter>
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-serviceVehicle>
+      <tr>
+        <td>{{ serviceVehicle.licensePlateNumber | uppercase }}</td>
+        <td>{{ serviceVehicle.brand | capitalize }}</td>
+        <td>{{ serviceVehicle.model | uppercase }}</td>
+        <td>{{ serviceVehicle.category | category }}</td>
+        <td>{{ serviceVehicle.motorization | motorization }}</td>
+        <td>{{ serviceVehicle.co2Km }}</td>
+        <td>{{ serviceVehicle.nbSeats }}</td>
+        <td>
+          <p-button [disabled]="!serviceVehicle.photoUrl" (click)="openPicture(serviceVehicle.photoUrl)">Voir</p-button>
+        </td>
+        <td>
+          <p-button label="Modifier" (click)="editServiceVehicle(serviceVehicle.licensePlateNumber)"></p-button>
+        </td>
+        <td>
+          <p-button [disabled]="serviceVehicle.hasBookings" label="Supprimer"
+                    (click)="confirmDelete($event, serviceVehicle.licensePlateNumber)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
 
 
-</p-table>
+  </p-table>
+</div>
+<p-confirmDialog/>

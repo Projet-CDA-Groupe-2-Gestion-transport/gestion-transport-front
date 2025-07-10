@@ -1,5 +1,6 @@
 <div class="d-flex flex-row justify-content-between">
   <app-title [title]="'Mes annonces de covoiturages'"></app-title>
+  <p-button label="Ajouter une annonce" [routerLink]="['new']"></p-button>
 </div>
 
 <p-tabs value="0">
@@ -10,7 +11,7 @@
   <p-tabpanels>
     <p-tabpanel value="0">
       @if (activeTabValue() === 0) {
-        <app-carpooling-list-table [isArchived]="false"></app-carpooling-list-table>
+        <app-carpooling-list-table></app-carpooling-list-table>
       }
     </p-tabpanel>
     <p-tabpanel value="1">

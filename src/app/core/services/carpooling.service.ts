@@ -6,6 +6,8 @@ import {ServiceVehicle} from '../../features/service-vehicle/model/serviceVehicl
 import {Carpooling} from '../../features/carpooling/models/carpooling';
 import {CarpoolingBooking} from '../../features/carpooling/models/carpooling-booking.model';
 import {CarpoolingSearchParams} from '../../features/carpooling/models/carpooling-search-params';
+import {GenericResponse} from '../model/generic-response';
+import {User} from '../../features/carpooling/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,10 @@ export class CarpoolingService {
       {params: filteredParams})
   }
 
+  getCarpoolingParticipantList(id: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}/${id}/participants`);
+  }
+
   saveCarpooling(carpooling: Carpooling): Observable<Carpooling> {
     return this.http.post<Carpooling>(`${this.baseUrl}`, carpooling);
   }
@@ -53,7 +59,11 @@ export class CarpoolingService {
   }
 
   cancelUserBooking(idCarpooling: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${idCarpooling}/cancel-booking`);
+    return this.http.delete<void>(`${this.baseUrl}/${idCarpooling}/user-booking`);
+  }
+
+  saveUserBooking(idCarpooling: number): Observable<GenericResponse> {
+    return this.http.post<GenericResponse>(`${this.baseUrl}/${idCarpooling}/user-booking`, idCarpooling);
   }
 
 }

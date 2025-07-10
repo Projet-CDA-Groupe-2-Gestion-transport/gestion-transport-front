@@ -7,8 +7,12 @@ import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {UpperCasePipe} from '@angular/common';
 import {CapitalizePipe} from '../../../../shared/pipes/string/capitalize.pipe';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
+import {TitleComponent} from '../../../../shared/components/title/title.component';
+import {ConfirmDialog} from 'primeng/confirmdialog';
+import {CategoryPipe} from '../../../../shared/pipes/category.pipe';
+import {MotorizationPipe} from '../../../../shared/pipes/motorization.pipe';
 
 @Component({
   selector: 'app-service-vehicle-list',
@@ -16,21 +20,28 @@ import {Router} from '@angular/router';
     TableModule,
     Button,
     UpperCasePipe,
-    CapitalizePipe
+    CapitalizePipe,
+    TitleComponent,
+    ConfirmDialog,
+    CategoryPipe,
+    MotorizationPipe
   ],
+  providers: [ConfirmationService],
   templateUrl: './service-vehicle-list.component.html',
   styleUrl: './service-vehicle-list.component.scss',
 
 })
 export class ServiceVehicleListComponent {
 
-  private readonly serviceVehicleSvc = inject(ServiceVehicleService);
-  private readonly messageSvc = inject(MessageService);
+  readonly #serviceVehicleSvc = inject(ServiceVehicleService);
+  readonly #messageSvc = inject(MessageService);
   readonly #destroyRef = inject(DestroyRef);
-  private readonly router = inject(Router);
+  readonly #router = inject(Router);
+  readonly #confirmationService = inject(ConfirmationService);
 
 
-  private readonly serviceVehicleResponseList = toSignal(this.serviceVehicleSvc.getAllServiceVehicle()
+
+  private readonly serviceVehicleResponseList = toSignal(this.#serviceVehicleSvc.getAllServiceVehicle()
     .pipe(map((value) => ({
         value,
         error: undefined
@@ -50,11 +61,35 @@ export class ServiceVehicleListComponent {
       window.open(photoUrl, '_blank');
   }
 
+  confirmDelete(event: Event, serviceVehiculeId: string) {
+    this.#confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Etes-vous sûr de vouloir supprimer ce véhicule de service?',
+      header: 'Confirmation',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: 'Non',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Oui',
+        severity: 'danger'
+      },
+      accept: () => {
+        this.deleteServiceVehicle(serviceVehiculeId);
+      },
+    });
+  }
+
+
   deleteServiceVehicle(licensePlateNumber: string) {
-    this.serviceVehicleSvc.deleteServiceVehicle(licensePlateNumber).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
+    this.#serviceVehicleSvc.deleteServiceVehicle(licensePlateNumber).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe({
       next: () => {
         this.serviceVehicleList.set(this.serviceVehicleList()!.filter(sv => sv.licensePlateNumber !== licensePlateNumber));
-        this.messageSvc.add({
+        this.#messageSvc.add({
           severity: 'success',
           summary:  `Véhicule ${licensePlateNumber} supprimé`,
           icon: 'fa-solid fa-check'
@@ -64,10 +99,10 @@ export class ServiceVehicleListComponent {
   }
 
   editServiceVehicle(licensePlateNumber: string) {
-    this.router.navigate([`/service-vehicle/edit/${licensePlateNumber}`]);
+    this.#router.navigate([`/service-vehicle/edit/${licensePlateNumber}`]);
   }
 
   addVehicle() {
-    this.router.navigate([`/service-vehicle/new`]);
+    this.#router.navigate([`/service-vehicle/new`]);
   }
 }

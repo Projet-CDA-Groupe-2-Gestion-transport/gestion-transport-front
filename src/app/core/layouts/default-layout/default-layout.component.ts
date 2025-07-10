@@ -8,8 +8,7 @@ import {RouterOutlet} from "@angular/router";
         NavComponent,
         RouterOutlet
     ],
-  templateUrl: './default-layout.component.html',
-  styleUrl: './default-layout.component.scss'
+  templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent {
 

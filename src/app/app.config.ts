@@ -6,9 +6,10 @@ import Basic from "./core/theme/app-theme";
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {authInterceptor} from './core/interceptors/auth.interceptor';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {toastInterceptor} from './core/interceptors/toast.interceptor';
+import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,9 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAnimationsAsync(),
     importProvidersFrom(ToastModule),
+    importProvidersFrom(DynamicDialogModule),
     MessageService,
+    ConfirmationService,
+    DialogService
   ]
 };

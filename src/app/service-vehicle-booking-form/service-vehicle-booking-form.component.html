@@ -1,21 +1,21 @@
 <app-title [title]="isEditMode ? 'Modification de ma réservation' : 'Nouvelle réservation'"></app-title>
-<form [formGroup]="form" (ngSubmit)="submitBooking()">
+<form [formGroup]="form" (ngSubmit)="submitBooking()" class="d-flex flex-column gap-2">
   <label for="vehicleId">Sélectionner un véhicule:</label>
-
-
-
   <p-select formControlName="licensePlateNumber" [options]="serviceVehicles" optionLabel="licensePlateNumber"
-    optionValue="licensePlateNumber" placeholder="Sélectionner un vehicule" class="w-full md:w-56" />
-
+            id="vehicleId" optionValue="licensePlateNumber" placeholder="Sélectionner un vehicule"
+            [style]="{width: '235px' }"/>
 
   <label for="dateTimeStart">Date et heure de début:</label>
-  <p-datepicker formControlName="dateTimeStart" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay"
-    [showTime]="true" />
+  <p-datepicker formControlName="dateTimeStart"
+                [iconDisplay]="'input'"
+                [showIcon]="true" inputId="dateTimeStart"
+                [showTime]="true"/>
 
   <label for="dateTimeEnd">Date et heure de fin:</label>
-  <p-datepicker formControlName="dateTimeEnd" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay"
-    [showTime]="true" />
+  <p-datepicker formControlName="dateTimeEnd" inputId="dateTimeEnd"
+                [iconDisplay]="'input'" [showIcon]="true"
+                [showTime]="true"/>
 
-  <button type="submit" [disabled]="form.invalid || isSubmitted">Réserver</button>
+  <p-button type="submit" [disabled]="form.invalid || isSubmitted">Réserver</p-button>
 
 </form>

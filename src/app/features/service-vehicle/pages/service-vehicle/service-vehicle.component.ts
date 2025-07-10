@@ -1,5 +1,5 @@
 import {Component, computed, DestroyRef, inject, linkedSignal} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {ServiceVehicleService} from '../../../../core/services/service-vehicle.service';
 import {catchError, map, of, switchMap} from 'rxjs';
@@ -21,6 +21,7 @@ import {
 import {Button} from 'primeng/button';
 import {MessageService} from 'primeng/api';
 import {EnumToStringPipe} from '../../../../shared/pipes/string/enum-to-string.pipe';
+import {TitleComponent} from '../../../../shared/components/title/title.component';
 @Component({
   selector: 'app-service-vehicle',
   imports: [
@@ -30,7 +31,9 @@ import {EnumToStringPipe} from '../../../../shared/pipes/string/enum-to-string.p
     Select,
     InputText,
     InputNumber,
-    Button
+    Button,
+    TitleComponent,
+    RouterLink
   ],
   templateUrl: './service-vehicle.component.html',
   styleUrl: './service-vehicle.component.scss'

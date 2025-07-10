@@ -2,10 +2,10 @@
   <p-progressSpinner></p-progressSpinner>
 }
 @if (serviceVehicle(); as serviceVehicle) {
-  <h2 class="text-decoration-underline">{{ title() }}</h2>
+  <app-title [title]="title()"></app-title>
   <ng-form #serviceVehicleForm="ngForm" class="service-vehicle-form">
-    <div class="d-flex flex-column gap-2">
-      <div class="d-flex flex-row gap-2 align-items-center">
+    <div class="d-flex flex-column gap-2 pb-5">
+      <div class="d-flex gap-2 flex-column col-3">
         <div class="label">
           <label for="licensePlateNumberInput">Immatriculation</label>
         </div>
@@ -30,7 +30,7 @@
         </div>
       }
 
-      <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="d-flex flex-column gap-2 col-3">
         <div class="label">
           <label for="brandInput">Marque</label>
         </div>
@@ -54,7 +54,7 @@
         </div>
       }
 
-      <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="d-flex gap-2 flex-column col-3">
         <div class="label">
           <label for="model">Modèle</label>
         </div>
@@ -73,7 +73,7 @@
         </div>
       }
 
-      <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="d-flex gap-2 flex-column col-3">
         <div class="label">
           <label for="categoryInput">Catégorie</label>
         </div>
@@ -97,7 +97,7 @@
         </div>
       }
 
-      <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="d-flex gap-2 flex-column col-3">
         <div class="label">
           <label for="photoUrl">Photo</label>
         </div>
@@ -110,7 +110,7 @@
         >
       </div>
 
-      <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="d-flex gap-2 flex-column col-3">
         <div class="label">
           <label for="nbSeats">Nombre de place</label>
         </div>
@@ -130,7 +130,7 @@
         </div>
       }
 
-      <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="d-flex gap-2 flex-column col-3">
         <div class="label">
           <label for="motorizationInput">Motorisation</label>
         </div>
@@ -154,7 +154,7 @@
         </div>
       }
 
-      <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="d-flex gap-2 flex-column col-3">
         <div class="label">
           <label for="co2">Emission co2</label>
         </div>
@@ -167,7 +167,7 @@
         </p-inputNumber>
       </div>
 
-      <div class="d-flex flex-row gap-2 align-items-center">
+      <div class="d-flex gap-2 flex-column col-3">
         <div class="label">
           <label for="status">Statut</label>
         </div>
@@ -191,9 +191,10 @@
           <span class="text-red-500">Veuillez sélectionner une motorisation</span>
         </div>
       }
-      <div class="d-flex flex-row gap-2">
+      <div class="d-flex flex-row gap-2 col-3 justify-content-between">
         <p-button label="Enregistrer" (click)="saveServiceVehicle()"></p-button>
-        <p-button label="Supprimer" (click)="deleteServiceVehicle()"></p-button>
+        <p-button label="Supprimer" [outlined]="true" severity="danger" (click)="deleteServiceVehicle()"></p-button>
+        <p-button label="Annuler" [outlined]="true" [routerLink]="['/', 'service-vehicle', 'list']"></p-button>
       </div>
     </div>
   </ng-form>

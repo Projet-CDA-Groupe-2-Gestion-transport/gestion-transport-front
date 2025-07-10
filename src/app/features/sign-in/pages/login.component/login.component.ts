@@ -25,7 +25,6 @@ import {FormErrorComponent} from '../../../../core/components/form-error-compone
     FormErrorComponent
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
 
@@ -54,12 +53,10 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.authService.login(this.form.getRawValue().username, this.form.getRawValue().password).pipe(
-      tap(() => this.router.navigate(['home'])),
+      tap(() => this.router.navigate([''])),
       catchError(err => {
         return of(err);
       })
     ).subscribe();
-
-
   }
 }

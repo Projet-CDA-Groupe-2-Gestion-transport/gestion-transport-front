@@ -1,11 +1,10 @@
 import {Component, computed, DestroyRef, inject, linkedSignal, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {takeUntilDestroyed, toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {catchError, map, of, switchMap} from 'rxjs';
 import {Carpooling, initCarpooling} from '../../models/carpooling';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {InputText} from 'primeng/inputtext';
 import {DatePicker} from 'primeng/datepicker';
 import {InputNumber} from 'primeng/inputnumber';
 import {Select} from 'primeng/select';
@@ -16,19 +15,23 @@ import {VehicleService} from '../../../../core/services/vehicle.service';
 import {Vehicle} from '../../../vehicle/models/vehicle';
 import {VehicleComponent} from '../../../vehicle/pages/vehicle/vehicle.component';
 import {CarpoolingService} from '../../../../core/services/carpooling.service';
+import {TitleComponent} from '../../../../shared/components/title/title.component';
+import {AddressInputComponent} from '../../../../core/components/address-input/address-input.component';
 
 @Component({
   selector: 'app-carpooling',
   imports: [
     ProgressSpinner,
     ReactiveFormsModule,
-    InputText,
     FormsModule,
     DatePicker,
     InputNumber,
     Select,
     Button,
-    VehicleComponent
+    VehicleComponent,
+    TitleComponent,
+    RouterLink,
+    AddressInputComponent
   ],
   templateUrl: './carpooling.component.html',
   styleUrl: './carpooling.component.scss'
@@ -82,7 +85,7 @@ export class CarpoolingComponent implements OnInit {
     computed(() => this.vehiclesResponse()?.value)
   );
 
-  title = computed(() => this.carpooling()?.id !== 0 ? "Modifier l'annonce de covoiturage" : "Créer une annonce de covoiturage");
+  title = computed(() => this.carpooling()?.id ? "Modifier l'annonce de covoiturage" : "Créer une annonce de covoiturage");
 
   canModify() {
     return this.carpoolingId() === null || (this.authSvc.isConnectedUserName(this.carpooling()?.organisator?.username) && this.carpooling()?.users.length === 0);

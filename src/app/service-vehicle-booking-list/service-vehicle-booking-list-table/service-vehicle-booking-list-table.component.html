@@ -16,8 +16,8 @@
       <td>
         <p-button label="Voir véhicule" class="me-1" (click)="viewDetails(booking)"></p-button>
       </td>
-      <td>
-        <p-button label="Modification" class="me-1" (click)="modify(booking)"></p-button>
+      <td *ngIf="!isArchived()">
+          <p-button label="Modification" class="me-1" (click)="modify(booking)"></p-button>
       </td>
        <td *ngIf="!isArchived()">
         

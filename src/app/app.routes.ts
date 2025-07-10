@@ -24,7 +24,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent)
+        loadComponent: () => import('./features/carpooling/pages/carpooling-booking-list/carpooling-booking-list.component').then(m => m.CarpoolingBookingListComponent),
       },
       ...carpoolingRoutes,
       ...serviceVehicleRoutes,

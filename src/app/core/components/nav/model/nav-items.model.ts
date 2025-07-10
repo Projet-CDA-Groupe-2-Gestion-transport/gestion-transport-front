@@ -22,8 +22,6 @@ export function createNavItems(isAdmin: boolean) {
       label: 'Véhicules de service',
       items: [
         {
-          label: 'Rechercher',
-        }, {
           label: 'Mes réservations',
           routerLink: ['service-vehicle-booking', 'list']
 

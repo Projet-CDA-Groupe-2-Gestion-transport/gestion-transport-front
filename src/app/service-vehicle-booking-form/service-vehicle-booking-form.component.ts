@@ -36,7 +36,6 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
 
     this.vehicleService.getAllServiceVehicle().subscribe((data: ServiceVehicle[]) => {
       this.serviceVehicles = data;
-      console.log(this.serviceVehicles)
     });
     this.form = this.formbuilder.group({ licensePlateNumber: [null], dateTimeStart: [null], dateTimeEnd: [null]})
 
@@ -58,7 +57,6 @@ isSubmitted = false;
 submitBooking(): void {
 
   const formValue = this.form.getRawValue();
-   console.log('Données du formulaire :', formValue);
 
 
   if (!formValue.dateTimeStart || !formValue.dateTimeEnd) {

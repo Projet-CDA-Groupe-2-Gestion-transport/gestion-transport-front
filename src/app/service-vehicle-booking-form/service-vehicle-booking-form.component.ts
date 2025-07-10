@@ -33,7 +33,12 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
   ngOnInit(): void {
   const id = this.route.snapshot.paramMap.get('id');
   this.isEditMode = !!id;
-
+    
+     this.vehicleService.getAllServiceVehicle().subscribe((data: ServiceVehicle[]) => {
+      this.serviceVehicles = data;
+      console.log(this.serviceVehicles)
+    });
+    
   this.form = this.formbuilder.group({
     id: [null],  
     licensePlateNumber: [null],

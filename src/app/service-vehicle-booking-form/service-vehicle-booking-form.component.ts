@@ -29,20 +29,22 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
   ) { }
 
   isEditMode = false;
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+ ngOnInit(): void {
+  const id = this.route.snapshot.paramMap.get('id');
   this.isEditMode = !!id;
 
-    this.vehicleService.getAllServiceVehicle().subscribe((data: ServiceVehicle[]) => {
-      this.serviceVehicles = data;
-      console.log(this.serviceVehicles)
-    });
-    this.form = this.formbuilder.group({ licensePlateNumber: [null], dateTimeStart: [null], dateTimeEnd: [null]})
+  this.form = this.formbuilder.group({
+    id: [null],  
+    licensePlateNumber: [null],
+    dateTimeStart: [null],
+    dateTimeEnd: [null]
+  });
 
-if (this.isEditMode && id) {
+  if (this.isEditMode && id) {
     this.bookingService.getBookingByBookingId(+id).subscribe((booking: ServiceVehicleBooking) => {
       this.booking = booking;
       this.form.patchValue({
+        id: booking.id,  
         licensePlateNumber: booking.licensePlateNumber,
         dateTimeStart: new Date(booking.dateTimeStart),
         dateTimeEnd: new Date(booking.dateTimeEnd)
@@ -50,6 +52,7 @@ if (this.isEditMode && id) {
     });
   }
 }
+
 
  
 isSubmitted = false;
@@ -65,29 +68,39 @@ submitBooking(): void {
   const rawDateStart = new Date(formValue.dateTimeStart);
   const rawDateEnd = new Date(formValue.dateTimeEnd);
 
-
   const dateStart = toLocalDateTime(rawDateStart);
   const dateEnd = toLocalDateTime(rawDateEnd);
 
-  const booking: Omit<ServiceVehicleBooking, 'id'> = {
-    userId: 0, 
+  const booking: ServiceVehicleBooking = {
+    id: formValue.id,
+    userId: formValue.userId || 0,
     dateTimeStart: dateStart,
     dateTimeEnd: dateEnd,
     licensePlateNumber: formValue.licensePlateNumber
   };
 
-  this.bookingService.createBooking(booking).subscribe({
-    next: (createdBooking) => {
-      console.log("Réservation créée :", createdBooking);
-      this.form.reset();
-    },
-     error: (error) => {
-      console.error("Erreur lors de la création de la réservation :", error);
-
-    }
-  });
+  if (booking.id) {
+    this.bookingService.updateBooking(booking.id, booking).subscribe({
+      next: (updatedBooking) => {
+        console.log("Réservation mise à jour :", updatedBooking);
+        this.form.reset();
+      },
+      error: (error) => {
+        console.error("Erreur lors de la mise à jour :", error);
+      }
+    });
+  } else {
+    this.bookingService.createBooking(booking).subscribe({
+      next: (createdBooking) => {
+        console.log("Réservation créée :", createdBooking);
+        this.form.reset();
+      },
+      error: (error) => {
+        console.error("Erreur lors de la création :", error);
+      }
+    });
+  }
 }
-
 }
 
 

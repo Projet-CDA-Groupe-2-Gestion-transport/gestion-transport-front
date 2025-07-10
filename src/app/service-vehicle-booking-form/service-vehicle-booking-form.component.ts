@@ -31,19 +31,21 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
 
   isEditMode = false;
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+  const id = this.route.snapshot.paramMap.get('id');
   this.isEditMode = !!id;
 
-    this.vehicleService.getAllServiceVehicle().subscribe((data: ServiceVehicle[]) => {
-      this.serviceVehicles = data;
-      console.log(this.serviceVehicles)
-    });
-    this.form = this.formbuilder.group({ licensePlateNumber: [null], dateTimeStart: [null], dateTimeEnd: [null]})
+  this.form = this.formbuilder.group({
+    id: [null],  
+    licensePlateNumber: [null],
+    dateTimeStart: [null],
+    dateTimeEnd: [null]
+  });
 
-if (this.isEditMode && id) {
+  if (this.isEditMode && id) {
     this.bookingService.getBookingByBookingId(+id).subscribe((booking: ServiceVehicleBooking) => {
       this.booking = booking;
       this.form.patchValue({
+        id: booking.id,  
         licensePlateNumber: booking.licensePlateNumber,
         dateTimeStart: new Date(booking.dateTimeStart),
         dateTimeEnd: new Date(booking.dateTimeEnd)
@@ -56,81 +58,49 @@ if (this.isEditMode && id) {
 isSubmitted = false;
 
 submitBooking(): void {
-
   const formValue = this.form.getRawValue();
-   console.log('Données du formulaire :', formValue);
-
+  console.log('Données du formulaire :', formValue);
 
   if (!formValue.dateTimeStart || !formValue.dateTimeEnd) {
-    alert("La date de début et la date de fin doivent être mentionnées.");
     return;
   }
 
   const rawDateStart = new Date(formValue.dateTimeStart);
   const rawDateEnd = new Date(formValue.dateTimeEnd);
 
-
-  if (rawDateEnd < rawDateStart) {
-    alert("La date de fin ne peut pas être antérieure à la date de départ.");
-    return;
-  }
-
   const dateStart = toLocalDateTime(rawDateStart);
   const dateEnd = toLocalDateTime(rawDateEnd);
 
-  const booking: Omit<ServiceVehicleBooking, 'id'> = {
-    userId: 0 ,
+  const booking: ServiceVehicleBooking = {
+    id: formValue.id,
+    userId: formValue.userId || 0,
     dateTimeStart: dateStart,
     dateTimeEnd: dateEnd,
     licensePlateNumber: formValue.licensePlateNumber
   };
 
-  // Vérifie s'il y a un chevauchement
-  this.bookingService.getBookingsByVehicleId(formValue.licensePlateNumber).subscribe({
-    next: (existingBookings: ServiceVehicleBooking[]) => {
-      const hasConflict = existingBookings.some(existing => {
-        // ✅ En mode édition, ignorer la réservation actuelle
-        if (this.isEditMode && existing.id === this.booking.id) {
-          return false;
-        }
-
-        const existingStart = new Date(existing.dateTimeStart);
-        const existingEnd = new Date(existing.dateTimeEnd);
-
-
-        return rawDateStart < existingEnd && rawDateEnd > existingStart;
-      });
-
-      if (hasConflict) {
-        alert("Il y a déjà une réservation en cours pour ce véhicule aux dates choisies.");
-        return;
+  if (booking.id) {
+    this.bookingService.updateBooking(booking.id, booking).subscribe({
+      next: (updatedBooking) => {
+        console.log("Réservation mise à jour :", updatedBooking);
+        this.form.reset();
+      },
+      error: (error) => {
+        console.error("Erreur lors de la mise à jour :", error);
       }
-
-
-    const save$ = this.isEditMode && this.booking.id !== undefined
-  ? this.bookingService.updateBooking(this.booking.id, { ...booking, id: this.booking.id })
-  : this.bookingService.createBooking(booking);
-
-      save$.subscribe({
-        next: () => {
-          this.isSubmitted = true;
-          alert('Réservation effectuée avec succès.');
-          this.form.reset();
-          // ✅ Redirection Angular (recommandé)
-          window.location.href = 'service-vehicle-booking/list';
-          // ou utilisez le routeur : this.router.navigate(['/liste-reservations']);
-        },
-        error: (err) => {
-          console.error('Erreur lors de la réservation:', err);
-          alert('Une erreur est survenue, veuillez réessayer.');
-        }
-      });
-    },
-    error: (err) => {
-      console.error('Erreur lors de la vérification des conflits de réservation:', err);
-      alert("Impossible de vérifier les disponibilités. Veuillez réessayer.");
-    }
-  });
+    });
+  } else {
+    this.bookingService.createBooking(booking).subscribe({
+      next: (createdBooking) => {
+        console.log("Réservation créée :", createdBooking);
+        this.form.reset();
+      },
+      error: (error) => {
+        console.error("Erreur lors de la création :", error);
+      }
+    });
+  }
+}
 }
 }
 

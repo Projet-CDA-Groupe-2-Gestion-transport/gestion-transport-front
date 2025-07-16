@@ -1,16 +1,16 @@
 import {Component, computed, DestroyRef, effect, inject, input, linkedSignal, signal} from '@angular/core';
-import {ServiceVehicleBookingService} from '../../core/services/service-vehicle-booking.service';
+import {ServiceVehicleBookingService} from '../../../../../core/services/service-vehicle-booking.service';
 import {TableModule} from 'primeng/table';
 import {Button} from 'primeng/button';
 import {CommonModule, DatePipe} from '@angular/common';
-import {CapitalizePipe} from '../../shared/pipes/string/capitalize.pipe';
+import {CapitalizePipe} from '../../../../../shared/pipes/string/capitalize.pipe';
 import {ConfirmationService} from 'primeng/api';
-import {ServiceVehicleBooking} from '../../features/service-vehicle/model/serviceVehicleBooking';
+import {ServiceVehicleBooking} from '../../../model/serviceVehicleBooking';
 import {catchError, map, of} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ConfirmDialog} from 'primeng/confirmdialog';
-import {ServiceVehicleService} from '../../core/services/service-vehicle.service';
-import {ServiceVehicle} from '../../features/service-vehicle/model/serviceVehicle';
+import {ServiceVehicleService} from '../../../../../core/services/service-vehicle.service';
+import {ServiceVehicle} from '../../../../service-vehicle/model/serviceVehicle';
 import {Router} from '@angular/router';
 
 
@@ -79,6 +79,7 @@ export class ServiceVehicleBookingListTableComponent {
         catchError((error) => of({value: undefined, error})),
         takeUntilDestroyed(this.destroyRef)
       ).subscribe((result) => {
+        console.log('Réservations reçues (archived =', archived, '):', result);
         this.serviceVehicleBookingResponseList.set(result);
       });
 
@@ -105,6 +106,7 @@ export class ServiceVehicleBookingListTableComponent {
       accept: () => {
         this.serviceVehicleBookingService.deleteBooking(bookingId).subscribe({
           next: () => {
+            console.log(`Réservation ${bookingId} supprimée.`);
             this.serviceVehicleBookingService.getUserBookings(this.isArchived()).pipe(
               map((value) => ({value, error: undefined})),
               catchError((error) => of({value: undefined, error})),

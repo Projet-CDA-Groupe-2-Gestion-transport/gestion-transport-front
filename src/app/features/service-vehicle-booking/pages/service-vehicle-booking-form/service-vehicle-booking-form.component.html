@@ -9,16 +9,12 @@
   <p-datepicker formControlName="dateTimeStart"
                 [iconDisplay]="'input'"
                 [showIcon]="true" inputId="dateTimeStart"
-                [showTime]="true"
-      required
-  />
+                [showTime]="true"/>
 
   <label for="dateTimeEnd">Date et heure de fin:</label>
   <p-datepicker formControlName="dateTimeEnd" inputId="dateTimeEnd"
                 [iconDisplay]="'input'" [showIcon]="true"
-                [showTime]="true"
-                required
-  />
+                [showTime]="true"/>
 
   <p-button type="submit" [disabled]="form.invalid || isSubmitted">Réserver</p-button>
 

@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import { ServiceVehicleBookingService } from '../core/services/service-vehicle-booking.service';
-import { ServiceVehicleBooking, initServiceVehicleBooking } from '../features/service-vehicle/model/serviceVehicleBooking';
+import { ServiceVehicleBookingService } from '../../../../core/services/service-vehicle-booking.service';
+import { ServiceVehicleBooking,initServiceVehicleBooking } from '../../model/serviceVehicleBooking';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ServiceVehicle } from '../features/service-vehicle/model/serviceVehicle';
-import { TitleComponent } from "../shared/components/title/title.component";
+import { ServiceVehicle } from '../../../service-vehicle/model/serviceVehicle';
+import { TitleComponent } from '../../../../shared/components/title/title.component';
 import { Select } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
-import {ServiceVehicleService} from '../core/services/service-vehicle.service';
-import { toLocalDateTime } from '../shared/utils/date-utils';
+import { ServiceVehicleService } from '../../../../core/services/service-vehicle.service';
+import { toLocalDateTime } from '../../../../shared/utils/date-utils';
 import { ActivatedRoute } from '@angular/router';
 import {Button} from 'primeng/button';
 
@@ -24,21 +24,16 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
   form!: FormGroup;
   constructor(
     private bookingService: ServiceVehicleBookingService,
-    private vehicleService: ServiceVehicleService, // Ajoute l'injection du service des véhicules
+    private vehicleService: ServiceVehicleService, 
     private formbuilder: FormBuilder,
      private route: ActivatedRoute
   ) { }
 
   isEditMode = false;
-  ngOnInit(): void {
+ ngOnInit(): void {
   const id = this.route.snapshot.paramMap.get('id');
   this.isEditMode = !!id;
-    
-     this.vehicleService.getAllServiceVehicle().subscribe((data: ServiceVehicle[]) => {
-      this.serviceVehicles = data;
-      console.log(this.serviceVehicles)
-    });
-    
+
   this.form = this.formbuilder.group({
     id: [null],  
     licensePlateNumber: [null],
@@ -59,11 +54,12 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
   }
 }
 
-
 isSubmitted = false;
 
 submitBooking(): void {
   const formValue = this.form.getRawValue();
+  console.log('Données du formulaire :', formValue);
+
   if (!formValue.dateTimeStart || !formValue.dateTimeEnd) {
     return;
   }

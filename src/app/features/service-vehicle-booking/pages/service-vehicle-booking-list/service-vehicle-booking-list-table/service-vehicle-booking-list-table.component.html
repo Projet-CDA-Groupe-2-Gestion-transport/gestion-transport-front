@@ -12,13 +12,11 @@
       <td>{{ booking.licensePlateNumber | capitalize }}</td>
       <td>{{ booking.dateTimeStart | date: 'dd/MM/yyyy HH:mm' }}</td>
       <td>{{ booking.dateTimeEnd | date: 'dd/MM/yyyy HH:mm' }}</td>
-        <td class="text-end">
+      <td class="text-end">
         <p-button label="Voir véhicule" class="me-1" (click)="viewDetails(booking)"></p-button>
-
-      </td>
-      <td *ngIf="!isArchived()">
-          <p-button label="Modification" class="me-1" (click)="modify(booking)"></p-button>
-
+        <p-button label="Modification" severity="help" (click)="modify(booking)"></p-button>
+        <p-button *ngIf="!isArchived()" severity="danger" (click)="confirm($event, booking.id)"
+                  label="Annuler"></p-button>
       </td>
     </tr>
   </ng-template>

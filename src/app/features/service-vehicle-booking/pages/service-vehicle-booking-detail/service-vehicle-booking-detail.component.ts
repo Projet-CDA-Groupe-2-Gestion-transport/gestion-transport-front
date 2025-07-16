@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ServiceVehicleBookingService } from '../core/services/service-vehicle-booking.service';
-import { ServiceVehicleBooking } from '../features/service-vehicle/model/serviceVehicleBooking';
+import { ServiceVehicleBookingService } from '../../../../core/services/service-vehicle-booking.service';
+import { ServiceVehicleBooking } from '../../model/serviceVehicleBooking';
 import { CommonModule } from '@angular/common';
 
 @Component({

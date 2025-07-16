@@ -4,7 +4,7 @@ import {carpoolingRoutes} from './features/carpooling/carpooling.routes';
 import {serviceVehicleRoutes} from './features/service-vehicle/service-vehicle.routes';
 import {AuthLayoutComponent} from './core/layouts/auth-layout/auth-layout.component';
 import {DefaultLayoutComponent} from './core/layouts/default-layout/default-layout.component';
-import { serviceVehicleBookingRoutes } from './features/service-vehicle/service-vehicle-booking.routes';
+import { serviceVehicleBookingRoutes } from './features/service-vehicle-booking/service-vehicle-booking.routes';
 
 export const routes: Routes = [
   {

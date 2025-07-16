@@ -64,8 +64,6 @@ isSubmitted = false;
 
 submitBooking(): void {
   const formValue = this.form.getRawValue();
-  console.log('Données du formulaire :', formValue);
-
   if (!formValue.dateTimeStart || !formValue.dateTimeEnd) {
     return;
   }

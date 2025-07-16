@@ -46,8 +46,10 @@ export class CarpoolingComponent implements OnInit {
   private readonly router = inject(Router);
   readonly #destroyRef = inject(DestroyRef);
   private routeParamMap = toSignal(this.route.paramMap);
+  readonly #now = new Date();
 
   carpoolingId = computed(() => this.routeParamMap()?.get('id') || null);
+
 
   ngOnInit() {
     this.listenAddedVehicle();
@@ -73,6 +75,11 @@ export class CarpoolingComponent implements OnInit {
     computed(() => this.carpoolingResponse()?.value)
   );
 
+  isArchived = computed(() => {
+    const startDate = this.carpooling()?.dateTimeStart;
+    return startDate ? startDate < this.#now : false;
+  });
+
   private readonly vehiclesResponse = toSignal(this.vehicleSvc.getAllVehicles().pipe(
       map(value => ({value, error: undefined})),
       catchError(error => of({value: undefined, error}))
@@ -88,7 +95,7 @@ export class CarpoolingComponent implements OnInit {
   title = computed(() => this.carpooling()?.id ? "Modifier l'annonce de covoiturage" : "Créer une annonce de covoiturage");
 
   canModify() {
-    return this.carpoolingId() === null || (this.authSvc.isConnectedUserName(this.carpooling()?.organisator?.username) && this.carpooling()?.users.length === 0);
+    return !this.isArchived() && this.carpoolingId() === null || (this.authSvc.isConnectedUserName(this.carpooling()?.organisator?.username) && this.carpooling()?.users.length === 0);
   }
 
   saveCarpooling() {

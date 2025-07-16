@@ -105,7 +105,6 @@ export class CarpoolingSearchComponent implements OnInit, OnDestroy {
   }
 
   openModalsaveBooking(event: Event, carpooling: Carpooling) {
-    console.log(carpooling)
     if (carpooling.id === null) {
       return;
     }
@@ -114,12 +113,6 @@ export class CarpoolingSearchComponent implements OnInit, OnDestroy {
         carpooling
       }
     })
-
-    this.modalRef.onClose.subscribe((result) => {
-      if (result) {
-        console.log('Modal fermée avec résultat:', result);
-      }
-    });
   }
 
   cancelBooking(event: Event, carpooling: Carpooling) {

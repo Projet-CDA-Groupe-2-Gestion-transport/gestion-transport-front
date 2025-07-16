@@ -8,16 +8,18 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {catchError, map, of} from 'rxjs';
 import {Carpooling} from '../../../models/carpooling';
 import {Router} from '@angular/router';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {ConfirmDialog} from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-carpooling-list-table',
-    imports: [
-        Button,
-        CapitalizePipe,
-        DatePipe,
-        TableModule
-    ],
+  imports: [
+    Button,
+    CapitalizePipe,
+    DatePipe,
+    TableModule,
+    ConfirmDialog
+  ],
   templateUrl: './carpooling-list-table.component.html',
   styleUrl: './carpooling-list-table.component.scss'
 })
@@ -28,6 +30,7 @@ export class CarpoolingListTableComponent {
   readonly #router = inject(Router);
   readonly #destroyRef = inject(DestroyRef);
   readonly #messageSvc = inject(MessageService);
+  readonly #confirmationService = inject(ConfirmationService);
 
   protected readonly carpoolingResponseList = signal<{
     value: Carpooling[] | undefined,
@@ -51,6 +54,32 @@ export class CarpoolingListTableComponent {
     });
   }
 
+  confirmCancel(event: Event, idCarpooling: number) {
+    this.#confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Etes-vous sûr de vouloir annuler ce covoiturage?',
+      header: 'Confirmation',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+        label: 'Non',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Oui',
+        severity: 'danger'
+      },
+      accept: () => {
+        this.cancel(idCarpooling);
+      },
+    });
+  }
+
+
+
+
   cancel(idCarpooling: number): void {
     this.#carpoolingSvc.deleteCarpooling(idCarpooling).pipe(takeUntilDestroyed(this.#destroyRef)).subscribe((): void => {
       const updatedCarpoolingList: Carpooling[] = this.carpoolingList()!.filter(carpooling => carpooling.id !== idCarpooling);
@@ -63,8 +92,7 @@ export class CarpoolingListTableComponent {
     });
   }
 
-
-  edit(id: number): void {
-    this.#router.navigate(['/carpooling/edit', id]);
+  goTo(id: number): void {
+    this.#router.navigate(['/carpooling/', id]);
   }
 }

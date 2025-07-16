@@ -79,7 +79,6 @@ export class ServiceVehicleBookingListTableComponent {
         catchError((error) => of({value: undefined, error})),
         takeUntilDestroyed(this.destroyRef)
       ).subscribe((result) => {
-        console.log('Réservations reçues (archived =', archived, '):', result);
         this.serviceVehicleBookingResponseList.set(result);
       });
 
@@ -106,7 +105,6 @@ export class ServiceVehicleBookingListTableComponent {
       accept: () => {
         this.serviceVehicleBookingService.deleteBooking(bookingId).subscribe({
           next: () => {
-            console.log(`Réservation ${bookingId} supprimée.`);
             this.serviceVehicleBookingService.getUserBookings(this.isArchived()).pipe(
               map((value) => ({value, error: undefined})),
               catchError((error) => of({value: undefined, error})),

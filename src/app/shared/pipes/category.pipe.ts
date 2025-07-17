@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {VehicleCategoryEnum} from '../../core/enums/vehicleCategoryEnum';
+import {VehicleCategoryEnum} from '../enums/vehicleCategoryEnum';
 
 @Pipe({
   name: 'category'

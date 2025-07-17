@@ -2,9 +2,9 @@ import {Routes} from '@angular/router';
 import {AuthGuard} from './core/guards/auth.guard';
 import {carpoolingRoutes} from './features/carpooling/carpooling.routes';
 import {serviceVehicleRoutes} from './features/service-vehicle/service-vehicle.routes';
-import {AuthLayoutComponent} from './core/layouts/auth-layout/auth-layout.component';
-import {DefaultLayoutComponent} from './core/layouts/default-layout/default-layout.component';
 import { serviceVehicleBookingRoutes } from './features/service-vehicle-booking/service-vehicle-booking.routes';
+import {AuthLayoutComponent} from './shared/layouts/auth-layout/auth-layout.component';
+import {DefaultLayoutComponent} from './shared/layouts/default-layout/default-layout.component';
 
 export const routes: Routes = [
   {

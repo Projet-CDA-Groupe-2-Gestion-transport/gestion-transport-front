@@ -1,4 +1,4 @@
-import {BrandEnum} from '../../../core/enums/brandEnum';
+import {BrandEnum} from '../../../shared/enums/brandEnum';
 
 export interface Vehicle {
     licensePlateNumber: string;

@@ -1,7 +1,7 @@
-import {BrandEnum} from '../../../core/enums/brandEnum';
-import {VehicleCategoryEnum} from '../../../core/enums/vehicleCategoryEnum';
-import {MotorizationEnum} from '../../../core/enums/motorizationEnum';
-import {ServiceVehiculeStatusEnum} from '../../../core/enums/serviceVehiculeStatusEnum';
+import {BrandEnum} from '../../../shared/enums/brandEnum';
+import {VehicleCategoryEnum} from '../../../shared/enums/vehicleCategoryEnum';
+import {MotorizationEnum} from '../../../shared/enums/motorizationEnum';
+import {ServiceVehiculeStatusEnum} from '../../../shared/enums/serviceVehiculeStatusEnum';
 
 export interface ServiceVehicle {
   licensePlateNumber: string;

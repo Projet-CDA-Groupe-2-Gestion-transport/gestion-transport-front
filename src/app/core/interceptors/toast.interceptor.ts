@@ -3,7 +3,7 @@ import {catchError, map, throwError} from 'rxjs';
 import {MessageService} from 'primeng/api';
 import {inject} from '@angular/core';
 import {AuthenticationService} from '../services/authentication.service';
-import {ToastService} from '../adapters/toast.service';
+import {ToastService} from '../services/toast.service';
 
 export const toastInterceptor: HttpInterceptorFn = (req, next) => {
   const messageService = inject(MessageService);

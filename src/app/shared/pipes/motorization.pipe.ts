@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {MotorizationEnum} from '../../core/enums/motorizationEnum';
+import {MotorizationEnum} from '../enums/motorizationEnum';
 
 @Pipe({
   name: 'motorization'

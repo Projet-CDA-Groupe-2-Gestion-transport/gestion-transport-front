@@ -5,9 +5,9 @@ import {ServiceVehicleService} from '../../../../core/services/service-vehicle.s
 import {catchError, map, of, switchMap} from 'rxjs';
 import {initServiceVehicle, ServiceVehicle} from '../../model/serviceVehicle';
 import {FormsModule} from '@angular/forms';
-import {BrandEnum} from '../../../../core/enums/brandEnum';
-import {VehicleCategoryEnum} from '../../../../core/enums/vehicleCategoryEnum';
-import {MotorizationEnum, MotorizationEnumTranslate} from '../../../../core/enums/motorizationEnum';
+import {BrandEnum} from '../../../../shared/enums/brandEnum';
+import {VehicleCategoryEnum} from '../../../../shared/enums/vehicleCategoryEnum';
+import {MotorizationEnum, MotorizationEnumTranslate} from '../../../../shared/enums/motorizationEnum';
 import {InputMask} from 'primeng/inputmask';
 import {ProgressSpinner} from 'primeng/progressspinner';
 import {Select} from 'primeng/select';
@@ -17,7 +17,7 @@ import {InputNumber} from 'primeng/inputnumber';
 import {
   ServiceVehiculeStatusEnum,
   ServiceVehiculeStatusEnumTranslate
-} from '../../../../core/enums/serviceVehiculeStatusEnum';
+} from '../../../../shared/enums/serviceVehiculeStatusEnum';
 import {Button} from 'primeng/button';
 import {MessageService} from 'primeng/api';
 import {EnumToStringPipe} from '../../../../shared/pipes/string/enum-to-string.pipe';

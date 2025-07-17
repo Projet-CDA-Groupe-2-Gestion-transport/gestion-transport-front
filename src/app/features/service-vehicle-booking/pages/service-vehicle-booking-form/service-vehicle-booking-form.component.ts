@@ -41,6 +41,15 @@ export class ServiceVehicleBookingFormComponent implements OnInit{
     dateTimeEnd: [null]
   });
 
+    this.vehicleService.getAllServiceVehicle().subscribe({
+    next: (vehicles: ServiceVehicle[]) => {
+      this.serviceVehicles = vehicles;
+    },
+    error: (error) => {
+      console.error("Erreur lors du chargement des véhicules :", error);
+    }
+  });
+
   if (this.isEditMode && id) {
     this.bookingService.getBookingByBookingId(+id).subscribe((booking: ServiceVehicleBooking) => {
       this.booking = booking;
